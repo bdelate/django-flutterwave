@@ -7,11 +7,13 @@ license = "MIT"
 repository = "https://github.com/bdelate/django-rave.git"
 homepage = "https://github.com/bdelate/django-rave.git"
 readme = "README.md"
+
 keywords=[
     "flutterwave",
     "rave",
 	"django",
 ]
+
 classifiers=[
     "Development Status :: 1 - Planning",
     "Intended Audience :: Developers",

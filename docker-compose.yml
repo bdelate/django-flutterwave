@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+
+  db:
+    image: postgres:11.3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  django:
+    build: .
+    image: django-rave
+    command: poetry run ./manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
