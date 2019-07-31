@@ -1,9 +1,30 @@
 [tool.poetry]
-name = "django-rave"
+name = "djangorave"
 version = "0.0.1"
 description = "Django flutterwave rave"
 authors = ["Brendon Delate <brendon.delate@gmail.com>"]
 license = "MIT"
+repository = "https://github.com/bdelate/django-rave.git"
+homepage = "https://github.com/bdelate/django-rave.git"
+readme = "README.md"
+keywords=[
+    "flutterwave",
+    "rave",
+	"django",
+]
+classifiers=[
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 2.2",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.6 <4"
