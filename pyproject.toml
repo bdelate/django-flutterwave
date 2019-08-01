@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "djangorave"
-version = "0.0.1"
-description = "Django flutterwave rave"
+version = "0.0.2"
+description = "Django integration for Flutterwave Rave Card payments and subscriptions"
 authors = ["Brendon Delate <brendon.delate@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/bdelate/django-rave.git"

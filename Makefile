@@ -5,10 +5,10 @@ build:
 	@docker-compose build
 
 migrations:
-	@docker-compose run django poetry run ./example/manage.py makemigrations
+	@docker-compose run django poetry run ./manage.py makemigrations
 
 migrate:
-	@docker-compose run django poetry run ./example/manage.py migrate
+	@docker-compose run django poetry run ./manage.py migrate
 
 bash:
 	@docker-compose run django bash
@@ -17,21 +17,15 @@ down:
 	@docker-compose down
 
 shell:
-	@docker-compose run django poetry run ./example/manage.py shell
-
-notebook:
-	@docker-compose run -p 8888:8888 django poetry run ./example/manage.py shell_plus --notebook
+	@docker-compose run django poetry run ./manage.py shell
 
 test:
-	@docker-compose run django poetry run ./example/manage.py test
+	@docker-compose run django poetry run ./manage.py test
 
 test_cov:
-	@docker-compose run django poetry run coverage run --source='.' example/manage.py test
+	@docker-compose run django poetry run coverage run --source='.' ./manage.py test
 	@docker-compose run django poetry run coverage html
-	@open djangorave/htmlcov/index.html
-
-compress:
-	@docker-compose run django poetry run ./example/manage.py compress
+	@open htmlcov/index.html
 
 logs:
 	@docker-compose logs -tf django

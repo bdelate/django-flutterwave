@@ -8,22 +8,16 @@ ENV PYTHONUNBUFFERED 1
 # Set work directory
 WORKDIR /code
 
+# Copy local project code into container
 COPY . .
 
 # Upgrade pip and install poetry
 RUN pip install --upgrade pip
 RUN pip install poetry
 
-
-# copy dependencies into container and install them
-# COPY pyproject.toml .
-# COPY poetry.lock .
-
-# build poetry
+# build djangorave and install packages
 RUN poetry build
 RUN poetry install
 
-# Copy local project code into container
-# Set work directory
-WORKDIR /code/djangorave/example
-# COPY ./djangorave/ .
+# Set work directory to example
+WORKDIR /code/example

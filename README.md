@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This project provides Django integration with the [Flutterwave](https://flutterwave.com/) API.
+This project provides Django integration for [Flutterwave](https://flutterwave.com/) Rave Card payments and subscriptions.
 
 The project is currently being developed and is considered pre-alpha.
 
@@ -12,17 +12,13 @@ The project is currently being developed and is considered pre-alpha.
 pip install djangorave
 ```
 
-# Development and Contribution
+# Development
 
 ### Running the example:
 
 ```bash
+git clone https://github.com/bdelate/django-rave.git
+cd django-rave
 make build
 make dup
-```
-
-### Building for publication (to PyPI)
-
-```bash
-poetry build
 ```
