@@ -113,3 +113,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+################ Jupyter notebook ################
+INSTALLED_APPS.append("django_extensions")
+NOTEBOOK_ARGUMENTS = [
+    "--ip",
+    "0.0.0.0",
+    "--port",
+    "8888",
+    "--allow-root",
+    "--no-browser",
+    "--notebook-dir",
+    "jupyter_notebooks",
+]
+
+################ djangorave settings ################
+PBFPUBKEY = os.environ["PBFPUBKEY"]

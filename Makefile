@@ -29,3 +29,6 @@ test_cov:
 
 logs:
 	@docker-compose logs -tf django
+
+notebook:
+	@docker-compose run -p 8888:8888 django poetry run ./manage.py shell_plus --notebook

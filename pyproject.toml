@@ -39,6 +39,8 @@ black = {version = "=19.3b0",allows-prereleases = true}
 mypy = "^0.720.0"
 twine = "^1.13"
 coverage = "^4.5"
+django-extensions = "^2.2"
+jupyter = "^1.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
