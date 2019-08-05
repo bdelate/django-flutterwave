@@ -12,7 +12,7 @@ class PaymentBaseModel(models.Model):
     """Represents the base data required for either a Plan or OnceOff payment
     method"""
 
-    description = models.CharField(max_length=50)
+    description = models.CharField(max_length=50, unique=True)
     amount = models.DecimalField(decimal_places=2, max_digits=9)
     currency = models.CharField(max_length=3, default="USD")
     custom_logo = models.URLField(max_length=500, blank=True, null=True)
