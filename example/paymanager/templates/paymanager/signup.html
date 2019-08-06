@@ -10,6 +10,34 @@
     <script src="{% static 'djangorave/js/payment.js' %}"></script>
 </head>
 
+<style>
+    .rave-pay-btn {
+        padding: 1rem;
+        border-radius: 0.3rem;
+        color: #fff;
+    }
+
+    .rave-pay-btn:hover {
+        cursor: pointer;
+    }
+
+    .rave-subscription-btn {
+        background-color: #43ad55;
+    }
+
+    .rave-subscription-btn:hover {
+        background-color: #61c772;
+    }
+
+    .rave-onceoff-btn {
+        background-color: #4374ad;
+    }
+
+    .rave-onceoff-btn:hover {
+        background-color: #5d8cc2;
+    }
+</style>
+
 <body>
     {% include 'djangorave/pay_button.html' with pay_model=pro_plan %}
     {% include 'djangorave/pay_button.html' with pay_model=buy_now %}
