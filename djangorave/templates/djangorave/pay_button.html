@@ -1,0 +1,36 @@
+{% load static %}
+{% load djangorave_tags %}
+<script>
+    function createPaymentParams() {
+        // Create payment params including integrity_has, rave pub key, txref
+        {% autoescape off %}
+        let pay_button_params = JSON.parse('{% pay_button_params user=user pay_model=pay_model %}');
+        {% endautoescape %}
+        paymentParams['{{ pay_model.description }}'] = {
+            PBFPubKey: pay_button_params.pub_key,
+            amount: '{{ pay_model.amount }}',
+            currency: '{{ pay_model.currency }}',
+            custom_logo: '{{ pay_model.custom_logo }}',
+            custom_title: '{{ pay_model.custom_title }}',
+            customer_email: '{{ user.email }}',
+            customer_firstname: '{{ user.first_name }}',
+            customer_lastname: '{{ user.last_name }}',
+            pay_button_text: '{{ pay_model.pay_button_text }}',
+            payment_options: '{{ pay_model.payment_options }}',
+            payment_plan: '{{ pay_model.payment_plan }}',
+            txref: pay_button_params.txref,
+            integrity_hash: pay_button_params.integrity_hash
+        }
+    };
+    createPaymentParams();
+</script>
+<script
+    type="text/javascript"
+    src="{% rave_inline_js %}">
+    </script>
+<button
+    class="rave-pay-btn {% if pay_model.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
+    type="button"
+    onClick="payWithRave(paymentParams['{{ pay_model.description }}'])">
+    {{ pay_model.pay_button_text }}
+</button>

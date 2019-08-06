@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # project apps
+    "paymanager",
     "djangorave",
 ]
 
@@ -128,4 +130,9 @@ NOTEBOOK_ARGUMENTS = [
 ]
 
 ################ djangorave settings ################
-PBFPUBKEY = os.environ["PBFPUBKEY"]
+RAVE_PRODUCTION_PUBLIC_KEY = os.environ["RAVE_PRODUCTION_PUBLIC_KEY"]
+RAVE_PRODUCTION_SECRET_KEY = os.environ["RAVE_PRODUCTION_SECRET_KEY"]
+RAVE_SANDBOX_PUBLIC_KEY = os.environ["RAVE_SANDBOX_PUBLIC_KEY"]
+RAVE_SANDBOX_SECRET_KEY = os.environ["RAVE_SANDBOX_SECRET_KEY"]
+RAVE_SANDBOX = True
+STATIC_ROOT = "static/"
