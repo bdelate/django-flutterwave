@@ -2,7 +2,7 @@
 from unittest.mock import patch
 
 # django imports
-from django.test import TestCase, override_settings
+from django.test import TestCase
 
 # 3rd party imports
 
@@ -15,7 +15,6 @@ from djangorave.tests.factories import (
 from djangorave.utils import create_integrity_hash
 
 
-# @override_settings(RAVE_SANDBOX=True, RAVE_SANDBOX_PUBLIC_KEY="tesdfst")
 class TestUtils(TestCase):
     """Test suite for djangorave utils"""
 
@@ -36,15 +35,17 @@ class TestUtils(TestCase):
         user = UserFactory(first_name="test", last_name="test", email="test")
         txref = "12345"
 
-        expected_hash = (
+        expected_response = (
             "fb77a1ce99ecab8aba012dc79ac335cd7d97886d4e10620a5a78a5d100fe047b"
         )
-        actual_hash = create_integrity_hash(pay_model=pay_model, user=user, txref=txref)
-        self.assertEqual(expected_hash, actual_hash)
+        actual_response = create_integrity_hash(
+            pay_model=pay_model, user=user, txref=txref
+        )
+        self.assertEqual(expected_response, actual_response)
 
     @patch("djangorave.utils.settings")
     def test_create_onceoff_integrity_hash(self, mock_rave_settings):
-        """Ensure the correct hash is returned for a plan"""
+        """Ensure the correct hash is returned for a onceoff payment"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
         pay_model = OnceOffModelFactory(
@@ -58,8 +59,10 @@ class TestUtils(TestCase):
         user = UserFactory(first_name="test", last_name="test", email="test")
         txref = "12345"
 
-        expected_hash = (
+        expected_response = (
             "d2df044a25e0efcd9f42088328994420bcbfcd6ada43b5ae424af0fcdc6962d3"
         )
-        actual_hash = create_integrity_hash(pay_model=pay_model, user=user, txref=txref)
-        self.assertEqual(expected_hash, actual_hash)
+        actual_response = create_integrity_hash(
+            pay_model=pay_model, user=user, txref=txref
+        )
+        self.assertEqual(expected_response, actual_response)

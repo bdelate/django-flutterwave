@@ -11,7 +11,7 @@ from django import template
 
 # project imports
 from djangorave.models import PlanModel, OnceOffModel
-from djangorave.settings import PUBLIC_KEY, RAVE_INLINE_JS
+from djangorave import settings
 from djangorave.utils import create_integrity_hash
 
 
@@ -30,11 +30,15 @@ def pay_button_params(user: User, pay_model: Union[PlanModel, OnceOffModel]) -> 
     txref = f"{pay_model.description}__{now}__user{user.id}"
     integrity_hash = create_integrity_hash(pay_model=pay_model, user=user, txref=txref)
     return json.dumps(
-        {"txref": txref, "pub_key": PUBLIC_KEY, "integrity_hash": integrity_hash}
+        {
+            "txref": txref,
+            "pub_key": settings.PUBLIC_KEY,
+            "integrity_hash": integrity_hash,
+        }
     )
 
 
 @register.simple_tag()
 def rave_inline_js() -> str:
     """Return the RAVE_INLINE_JS setting"""
-    return RAVE_INLINE_JS
+    return settings.RAVE_INLINE_JS
