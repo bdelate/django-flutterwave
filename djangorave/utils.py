@@ -9,16 +9,16 @@ from django.contrib.auth.models import User
 
 # project imports
 from djangorave.models import PlanModel, OnceOffModel
-from djangorave.settings import PUBLIC_KEY, SECRET_KEY
+from djangorave import settings
 
 
 def create_integrity_hash(
     pay_model: Union[PlanModel, OnceOffModel], user: User, txref: str
 ) -> str:
     """Returns an integrity hash created from the provided user and payment 
-    details which is used by rave to ensure client side values are not altered."""
+    details which is used by rave to ensure client side values are not altered. """
     data = {
-        "PBFPubKey": PUBLIC_KEY,
+        "PBFPubKey": settings.PUBLIC_KEY,
         "amount": pay_model.amount,
         "currency": pay_model.currency,
         "custom_logo": pay_model.custom_logo,
@@ -34,5 +34,5 @@ def create_integrity_hash(
     hash_string = ""
     for key in sorted(data.keys()):
         hash_string += str(data[key])
-    hash_string += SECRET_KEY
+    hash_string += settings.SECRET_KEY
     return hashlib.sha256(hash_string.encode("utf-8")).hexdigest()
