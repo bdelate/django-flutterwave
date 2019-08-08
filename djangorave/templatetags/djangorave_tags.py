@@ -37,5 +37,4 @@ def pay_button_params(user: User, pay_model: Union[PlanModel, OnceOffModel]) -> 
 @register.simple_tag()
 def rave_inline_js() -> str:
     """Return the RAVE_INLINE_JS setting"""
-    print(RAVE_INLINE_JS)
     return RAVE_INLINE_JS

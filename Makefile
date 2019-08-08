@@ -20,12 +20,12 @@ shell:
 	@docker-compose run django poetry run ./manage.py shell
 
 test:
-	@docker-compose run django poetry run ./manage.py test
+	@docker-compose run django poetry run ./manage.py test djangorave
 
 test_cov:
-	@docker-compose run django poetry run coverage run --source='.' ./manage.py test
+	@docker-compose run django poetry run coverage run --source=djangorave ./manage.py test djangorave
 	@docker-compose run django poetry run coverage html
-	@open htmlcov/index.html
+	@open example/htmlcov/index.html
 
 logs:
 	@docker-compose logs -tf django
