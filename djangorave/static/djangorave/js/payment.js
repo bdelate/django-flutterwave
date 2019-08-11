@@ -1,9 +1,5 @@
 const paymentParams = {};
 
-function createPaymentParams(user, paymentModel, integrity_hash) {
-  console.log(paymentModel.id);
-}
-
 function payWithRave(paymentParams) {
   let raveResponse = {};
   let x = getpaidSetup({
@@ -29,6 +25,7 @@ function payWithRave(paymentParams) {
       let txref = response.tx.txRef; // collect txRef returned and pass to a server page to complete status check.
       raveResponse = response;
       console.log("This is the response returned after a charge", response);
+      console.log(paymentParams.transaction_url);
 
       // send ajax post with response data to create transaction in db (regardless of
       // success or failure)

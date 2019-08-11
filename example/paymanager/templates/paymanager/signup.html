@@ -39,8 +39,8 @@
 </style>
 
 <body>
-    {% include 'djangorave/pay_button.html' with pay_model=pro_plan %}
-    {% include 'djangorave/pay_button.html' with pay_model=buy_now %}
+    {% include 'djangorave/pay_button.html' with payment_method=pro_plan %}
+    {% include 'djangorave/pay_button.html' with payment_method=buy_now %}
 </body>
 
 </html>

@@ -4,22 +4,18 @@
 from django.contrib import admin
 
 # project imports
-from djangorave.models import PlanModel, OnceOffModel
+from djangorave.models import PaymentMethodModel, TransactionModel
 
 # project imports
 
 
-class PaymentBaseAdmin(admin.ModelAdmin):
+class PaymentMethodAdmin(admin.ModelAdmin):
     list_display = ("description", "amount", "currency")
 
 
-class PlanAdmin(PaymentBaseAdmin):
-    list_display = ("payment_plan",) + PaymentBaseAdmin.list_display
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ("reference", "amount")
 
 
-class OnceOffAdmin(PaymentBaseAdmin):
-    pass
-
-
-admin.site.register(PlanModel, PlanAdmin)
-admin.site.register(OnceOffModel, OnceOffAdmin)
+admin.site.register(PaymentMethodModel, PaymentMethodAdmin)
+admin.site.register(TransactionModel, TransactionAdmin)

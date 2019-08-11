@@ -4,23 +4,39 @@
     function createPaymentParams() {
         // Create payment params including integrity_has, rave pub key, txref
         {% autoescape off %}
-        let pay_button_params = JSON.parse('{% pay_button_params user=user pay_model=pay_model %}');
+        let pay_button_params = JSON.parse('{% pay_button_params user=user payment_method=payment_method %}');
         {% endautoescape %}
-        paymentParams['{{ pay_model.description }}'] = {
+        paymentParams['{{ payment_method.description }}'] = {
             PBFPubKey: pay_button_params.pub_key,
-            amount: '{{ pay_model.amount }}',
-            currency: '{{ pay_model.currency }}',
-            custom_logo: '{{ pay_model.custom_logo }}',
-            custom_title: '{{ pay_model.custom_title }}',
+            amount: '{{ payment_method.amount }}',
+            currency: '{{ payment_method.currency }}',
+            custom_logo: '{{ payment_method.custom_logo }}',
+            custom_title: '{{ payment_method.custom_title }}',
             customer_email: '{{ user.email }}',
             customer_firstname: '{{ user.first_name }}',
             customer_lastname: '{{ user.last_name }}',
-            pay_button_text: '{{ pay_model.pay_button_text }}',
-            payment_options: '{{ pay_model.payment_options }}',
-            payment_plan: '{{ pay_model.payment_plan }}',
+            pay_button_text: '{{ payment_method.pay_button_text }}',
+            payment_options: '{{ payment_method.payment_options }}',
+            payment_plan: '{{ payment_method.payment_plan }}',
             txref: pay_button_params.txref,
-            integrity_hash: pay_button_params.integrity_hash
+            integrity_hash: pay_button_params.integrity_hash,
+            transaction_url: '{% url "djangorave:transaction-list" %}'
         }
+
+
+        // let data = { 'reference': 'test123' };
+        // let url = '{% url "djangorave:transaction-list" %}';
+        // let csrf_token = '{{ csrf_token }}';
+        // let headers = {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json',
+        //     'X-CSRFToken': csrf_token
+        // };
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: headers,
+        //     body: JSON.stringify(data)
+        // })
     };
     createPaymentParams();
 </script>
@@ -29,8 +45,8 @@
     src="{% rave_inline_js %}">
     </script>
 <button
-    class="rave-pay-btn {% if pay_model.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
+    class="rave-pay-btn {% if payment_method.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
     type="button"
-    onClick="payWithRave(paymentParams['{{ pay_model.description }}'])">
-    {{ pay_model.pay_button_text }}
+    onClick="payWithRave(paymentParams['{{ payment_method.description }}'])">
+    {{ payment_method.pay_button_text }}
 </button>

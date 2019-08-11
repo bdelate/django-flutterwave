@@ -7,7 +7,7 @@ from django.test import TestCase
 # 3rd party imports
 
 # project imports
-from djangorave.tests.factories import PlanModelFactory, UserFactory
+from djangorave.tests.factories import PaymentMethodModelFactory, UserFactory
 from djangorave.templatetags.djangorave_tags import pay_button_params, rave_inline_js
 
 
@@ -25,11 +25,11 @@ class TestTemplateTags(TestCase):
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_timezone.now.return_value.timestamp.return_value = "test"
         mock_create_integrity_hash.return_value = "test"
-        pay_model = PlanModelFactory()
+        payment_method = PaymentMethodModelFactory()
         user = UserFactory()
 
-        expected_response = f'{{"txref": "{pay_model.description}__test__user{user.id}", "pub_key": "test", "integrity_hash": "test"}}'
-        actual_response = pay_button_params(user=user, pay_model=pay_model)
+        expected_response = f'{{"txref": "{payment_method.id}__test__user_{user.id}", "pub_key": "test", "integrity_hash": "test"}}'
+        actual_response = pay_button_params(user=user, payment_method=payment_method)
         mock_create_integrity_hash.assert_called()
         self.assertEqual(expected_response, actual_response)
 

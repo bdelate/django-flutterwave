@@ -7,11 +7,7 @@ from django.test import TestCase
 # 3rd party imports
 
 # project imports
-from djangorave.tests.factories import (
-    PlanModelFactory,
-    OnceOffModelFactory,
-    UserFactory,
-)
+from djangorave.tests.factories import PaymentMethodModelFactory, UserFactory
 from djangorave.utils import create_integrity_hash
 
 
@@ -23,7 +19,7 @@ class TestUtils(TestCase):
         """Ensure the correct hash is returned for a plan"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
-        pay_model = PlanModelFactory(
+        payment_method = PaymentMethodModelFactory(
             amount=10,
             currency="USD",
             custom_logo="http://example.com/eg.png",
@@ -32,14 +28,14 @@ class TestUtils(TestCase):
             payment_options="card",
             payment_plan=1,
         )
-        user = UserFactory(first_name="test", last_name="test", email="test")
+        user = UserFactory(first_name="test", last_name="test", email="test@test.com")
         txref = "12345"
 
         expected_response = (
-            "fb77a1ce99ecab8aba012dc79ac335cd7d97886d4e10620a5a78a5d100fe047b"
+            "feb3402878b204ce830de3d4b812721f1d017ec71a9855247bb4d16ab263c77e"
         )
         actual_response = create_integrity_hash(
-            pay_model=pay_model, user=user, txref=txref
+            payment_method=payment_method, user=user, txref=txref
         )
         self.assertEqual(expected_response, actual_response)
 
@@ -48,7 +44,7 @@ class TestUtils(TestCase):
         """Ensure the correct hash is returned for a onceoff payment"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
-        pay_model = OnceOffModelFactory(
+        payment_method = PaymentMethodModelFactory(
             amount=10,
             currency="USD",
             custom_logo="http://example.com/eg.png",
@@ -56,13 +52,13 @@ class TestUtils(TestCase):
             pay_button_text="test",
             payment_options="card",
         )
-        user = UserFactory(first_name="test", last_name="test", email="test")
+        user = UserFactory(first_name="test", last_name="test", email="test@test.com")
         txref = "12345"
 
         expected_response = (
-            "d2df044a25e0efcd9f42088328994420bcbfcd6ada43b5ae424af0fcdc6962d3"
+            "3e76fa15d1651c2e69073aa0ec9af1679ddc5b7c20253fece1bb9f03f1a7df91"
         )
         actual_response = create_integrity_hash(
-            pay_model=pay_model, user=user, txref=txref
+            payment_method=payment_method, user=user, txref=txref
         )
         self.assertEqual(expected_response, actual_response)
