@@ -28,7 +28,7 @@ class TestTemplateTags(TestCase):
         payment_method = PaymentMethodModelFactory()
         user = UserFactory()
 
-        expected_response = f'{{"txref": "{payment_method.id}__test__user_{user.id}", "pub_key": "test", "integrity_hash": "test"}}'
+        expected_response = f'{{"txref": "{payment_method.id}__test__{user.id}", "pub_key": "test", "integrity_hash": "test"}}'
         actual_response = pay_button_params(user=user, payment_method=payment_method)
         mock_create_integrity_hash.assert_called()
         self.assertEqual(expected_response, actual_response)

@@ -26,7 +26,7 @@ def pay_button_params(user: User, payment_method: PaymentMethodModel) -> str:
     integrity_hash: used by rave to ensure client side values are note altered
     """
     now = timezone.now().timestamp()
-    txref = f"{payment_method.id}__{now}__user_{user.id}"
+    txref = f"{payment_method.id}__{now}__{user.id}"
     integrity_hash = create_integrity_hash(
         payment_method=payment_method, user=user, txref=txref
     )
