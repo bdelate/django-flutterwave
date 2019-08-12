@@ -24,7 +24,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             "status",
         )
 
-    def validate_reference(self, value):
+    def validate_reference(self, value: str) -> str:
         """Ensure the received reference contains a valid payment_method_id and
         user_id"""
         payment_method_id = value.split("__")[0]

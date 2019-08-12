@@ -17,8 +17,9 @@ class TransactionApiView(CreateModelMixin, GenericViewSet):
 
     queryset = TransactionModel.objects.all()
     serializer_class = TransactionSerializer
+    authentication_classes: list = []
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: TransactionSerializer) -> None:
         """Add payment_method and user to Transaction instance, determined
         from the received reference"""
         reference = serializer.validated_data["reference"]
