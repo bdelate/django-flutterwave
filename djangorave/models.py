@@ -9,8 +9,8 @@ from django.db import models
 # project imports
 
 
-class PaymentMethodModel(models.Model):
-    """Represents either a Plan or OnceOff payment method"""
+class PaymentTypeModel(models.Model):
+    """Represents either a Plan or OnceOff payment type"""
 
     description = models.CharField(max_length=50, unique=True)
     amount = models.DecimalField(decimal_places=2, max_digits=9)
@@ -26,10 +26,10 @@ class PaymentMethodModel(models.Model):
 
 
 class TransactionModel(models.Model):
-    """Represents a transaction for a specific payment method and user"""
+    """Represents a transaction for a specific payment type and user"""
 
-    payment_method = models.ForeignKey(
-        to=PaymentMethodModel, related_name="transactions", on_delete=models.CASCADE
+    payment_type = models.ForeignKey(
+        to=PaymentTypeModel, related_name="transactions", on_delete=models.CASCADE
     )
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,

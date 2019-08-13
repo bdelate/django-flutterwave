@@ -8,11 +8,11 @@ from factory import fuzzy, DjangoModelFactory
 import factory
 
 # project imports
-from djangorave.models import PaymentMethodModel
+from djangorave.models import PaymentTypeModel
 
 
-class PaymentMethodModelFactory(DjangoModelFactory):
-    """Factory for the PlanModel"""
+class PaymentTypeModelFactory(DjangoModelFactory):
+    """Factory for the PaymentTypeModel"""
 
     description = factory.Faker("word")
     amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
@@ -20,7 +20,7 @@ class PaymentMethodModelFactory(DjangoModelFactory):
     custom_title = factory.Faker("word")
 
     class Meta:
-        model = PaymentMethodModel
+        model = PaymentTypeModel
 
 
 class UserFactory(DjangoModelFactory):

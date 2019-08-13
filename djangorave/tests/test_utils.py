@@ -7,7 +7,7 @@ from django.test import TestCase
 # 3rd party imports
 
 # project imports
-from djangorave.tests.factories import PaymentMethodModelFactory, UserFactory
+from djangorave.tests.factories import PaymentTypeModelFactory, UserFactory
 from djangorave.utils import create_integrity_hash
 
 
@@ -19,7 +19,7 @@ class TestUtils(TestCase):
         """Ensure the correct hash is returned for a plan"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
-        payment_method = PaymentMethodModelFactory(
+        payment_type = PaymentTypeModelFactory(
             amount=10,
             currency="USD",
             custom_logo="http://example.com/eg.png",
@@ -36,10 +36,7 @@ class TestUtils(TestCase):
             "1e2b7754ee03721e2bca37680cc5cb973b41addf446a8b791a8bc97e6eaa652c"
         )
         actual_response = create_integrity_hash(
-            payment_method=payment_method,
-            user=user,
-            txref=txref,
-            redirect_url=redirect_url,
+            payment_type=payment_type, user=user, txref=txref, redirect_url=redirect_url
         )
         self.assertEqual(expected_response, actual_response)
 
@@ -48,7 +45,7 @@ class TestUtils(TestCase):
         """Ensure the correct hash is returned for a onceoff payment"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
-        payment_method = PaymentMethodModelFactory(
+        payment_type = PaymentTypeModelFactory(
             amount=10,
             currency="USD",
             custom_logo="http://example.com/eg.png",
@@ -64,9 +61,6 @@ class TestUtils(TestCase):
             "8d5aa47bc2b280aeb0815ef7ace05c87bd25d69276cbc12ac82c5cfe7a9d5d52"
         )
         actual_response = create_integrity_hash(
-            payment_method=payment_method,
-            user=user,
-            txref=txref,
-            redirect_url=redirect_url,
+            payment_type=payment_type, user=user, txref=txref, redirect_url=redirect_url
         )
         self.assertEqual(expected_response, actual_response)

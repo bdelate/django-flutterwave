@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 # project imports
-from djangorave.models import TransactionModel, PaymentMethodModel
+from djangorave.models import TransactionModel, PaymentTypeModel
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -25,18 +25,18 @@ class TransactionSerializer(serializers.ModelSerializer):
         )
 
     def validate_reference(self, value: str) -> str:
-        """Ensure the received reference contains a valid payment_method_id and
+        """Ensure the received reference contains a valid payment_type_id and
         user_id"""
-        payment_method_id = value.split("__")[0]
+        payment_type_id = value.split("__")[0]
         user_id = value.split("__")[2]
 
         try:
-            PaymentMethodModel.objects.get(id=payment_method_id)
-        except PaymentMethodModel.DoesNotExist:
-            raise serializers.ValidationError("Payment method does not exist")
+            PaymentTypeModel.objects.get(id=payment_type_id)
+        except PaymentTypeModel.DoesNotExist:
+            raise serializers.ValidationError("Payment type does not exist")
 
         UserModel = get_user_model()
-        payment_method_id = value.split("__")[0]
+        payment_type_id = value.split("__")[0]
         try:
             UserModel.objects.get(id=user_id)
         except UserModel.DoesNotExist:
