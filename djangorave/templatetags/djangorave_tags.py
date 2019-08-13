@@ -3,6 +3,7 @@ import json
 
 # django imports
 from django.contrib.auth.models import User
+from django.shortcuts import reverse
 from django.utils import timezone
 from django import template
 
@@ -21,18 +22,22 @@ register = template.Library()
 def pay_button_params(user: User, payment_method: PaymentMethodModel) -> str:
     """Returns params required when submitting a payment request to rave.
 
-    txref: created by combining payment_method.id, timestamp and user_id
-    pub_key: PBFPubKey from settings
-    integrity_hash: used by rave to ensure client side values are note altered
+    Returns:
+        txref: created by combining payment_method.id, timestamp and user_id
+        redirect_url: transaction detail page to redirect to
+        pub_key: PBFPubKey from settings
+        integrity_hash: used by rave to ensure client side values are note altered
     """
     now = timezone.now().timestamp()
     txref = f"{payment_method.id}__{now}__{user.id}"
+    redirect_url = reverse("djangorave:reference", kwargs={"reference": txref})
     integrity_hash = create_integrity_hash(
-        payment_method=payment_method, user=user, txref=txref
+        payment_method=payment_method, user=user, txref=txref, redirect_url=redirect_url
     )
     return json.dumps(
         {
             "txref": txref,
+            "redirect_url": redirect_url,
             "pub_key": settings.PUBLIC_KEY,
             "integrity_hash": integrity_hash,
         }

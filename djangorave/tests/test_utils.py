@@ -30,12 +30,16 @@ class TestUtils(TestCase):
         )
         user = UserFactory(first_name="test", last_name="test", email="test@test.com")
         txref = "12345"
+        redirect_url = "test"
 
         expected_response = (
-            "feb3402878b204ce830de3d4b812721f1d017ec71a9855247bb4d16ab263c77e"
+            "1e2b7754ee03721e2bca37680cc5cb973b41addf446a8b791a8bc97e6eaa652c"
         )
         actual_response = create_integrity_hash(
-            payment_method=payment_method, user=user, txref=txref
+            payment_method=payment_method,
+            user=user,
+            txref=txref,
+            redirect_url=redirect_url,
         )
         self.assertEqual(expected_response, actual_response)
 
@@ -54,11 +58,15 @@ class TestUtils(TestCase):
         )
         user = UserFactory(first_name="test", last_name="test", email="test@test.com")
         txref = "12345"
+        redirect_url = "test"
 
         expected_response = (
-            "3e76fa15d1651c2e69073aa0ec9af1679ddc5b7c20253fece1bb9f03f1a7df91"
+            "8d5aa47bc2b280aeb0815ef7ace05c87bd25d69276cbc12ac82c5cfe7a9d5d52"
         )
         actual_response = create_integrity_hash(
-            payment_method=payment_method, user=user, txref=txref
+            payment_method=payment_method,
+            user=user,
+            txref=txref,
+            redirect_url=redirect_url,
         )
         self.assertEqual(expected_response, actual_response)

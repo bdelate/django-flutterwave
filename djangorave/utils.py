@@ -12,7 +12,7 @@ from djangorave import settings
 
 
 def create_integrity_hash(
-    payment_method: PaymentMethodModel, user: User, txref: str
+    payment_method: PaymentMethodModel, user: User, txref: str, redirect_url: str
 ) -> str:
     """Returns an integrity hash created from the provided user and payment 
     details which is used by rave to ensure client side values are not altered. """
@@ -28,6 +28,7 @@ def create_integrity_hash(
         "pay_button_text": payment_method.pay_button_text,
         "payment_options": payment_method.payment_options,
         "payment_plan": payment_method.payment_plan,
+        "redirect_url": redirect_url,
         "txref": txref,
     }
     hash_string = ""
