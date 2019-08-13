@@ -2,7 +2,9 @@
 {% load djangorave_tags %}
 <script>
     function createPaymentParams() {
-        // Create payment params including integrity_has, rave pub key, txref
+        //
+        // Create payment params which will be sent to Rave upon payment
+        //
         {% autoescape off %}
         let pay_button_params = JSON.parse('{% pay_button_params user=user payment_method=payment_method %}');
         {% endautoescape %}
@@ -20,23 +22,9 @@
             payment_plan: '{{ payment_method.payment_plan }}',
             txref: pay_button_params.txref,
             integrity_hash: pay_button_params.integrity_hash,
-            transaction_url: '{% url "djangorave:transaction-list" %}'
+            transaction_url: '{% url "djangorave:transaction-list" %}',
+            redirect_url: pay_button_params.redirect_url
         }
-
-
-        // let data = { 'reference': 'test123' };
-        // let url = '{% url "djangorave:transaction-list" %}';
-        // let csrf_token = '{{ csrf_token }}';
-        // let headers = {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json',
-        //     'X-CSRFToken': csrf_token
-        // };
-        // fetch(url, {
-        //     method: "POST",
-        //     headers: headers,
-        //     body: JSON.stringify(data)
-        // })
     };
     createPaymentParams();
 </script>
