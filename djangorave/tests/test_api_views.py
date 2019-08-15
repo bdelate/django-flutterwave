@@ -22,9 +22,9 @@ class TestTransactionApiView(APITestCase):
         payment_type = PaymentTypeModelFactory()
         factory = APIRequestFactory()
         data = {
-            "reference": f"{payment_type.id}__test__{user.id}",
-            "flutterwave_reference": "test",
-            "order_reference": "test",
+            "txRef": f"{payment_type.id}__test__{user.id}",
+            "flwRef": "test",
+            "orderRef": "test",
             "amount": 10,
             "charged_amount": 10,
             "status": "test",
