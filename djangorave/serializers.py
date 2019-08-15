@@ -13,16 +13,13 @@ from djangorave.models import TransactionModel, PaymentTypeModel
 class TransactionSerializer(serializers.ModelSerializer):
     """Serializer for the Transaction Model"""
 
+    txRef = serializers.CharField(source="reference")
+    flwRef = serializers.CharField(source="flutterwave_reference")
+    orderRef = serializers.CharField(source="order_reference")
+
     class Meta:
         model = TransactionModel
-        fields = (
-            "reference",
-            "flutterwave_reference",
-            "order_reference",
-            "amount",
-            "charged_amount",
-            "status",
-        )
+        fields = ("txRef", "flwRef", "orderRef", "amount", "charged_amount", "status")
 
     def validate_reference(self, value: str) -> str:
         """Ensure the received reference contains a valid payment_type_id and
