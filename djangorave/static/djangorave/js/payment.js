@@ -1,8 +1,4 @@
-const paymentParams = {};
-const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-};
+const paymentParams = {};  // paymentParams for each pay button on page
 
 function payWithRave(paymentParams) {
   let x = getpaidSetup({
@@ -33,21 +29,8 @@ function payWithRave(paymentParams) {
 
     callback: function (response) {
       //
-      // When response is received, create transaction on server
+      // Callback can optionally be used when response is received from Rave
       //
-      const data = {
-        reference: response.tx.txRef,
-        flutterwave_reference: response.tx.flwRef,
-        order_reference: response.tx.orderRef,
-        amount: response.tx.amount,
-        charged_amount: response.tx.charged_amount,
-        status: response.tx.status,
-      }
-      fetch(paymentParams.transaction_url, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(data)
-      })
     }
   });
 }

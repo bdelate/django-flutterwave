@@ -6,23 +6,22 @@
         // Create payment params which will be sent to Rave upon payment
         //
         {% autoescape off %}
-        let pay_button_params = JSON.parse('{% pay_button_params user=user payment_method=payment_method %}');
+        let pay_button_params = JSON.parse('{% pay_button_params user=user payment_type=payment_type %}');
         {% endautoescape %}
-        paymentParams['{{ payment_method.description }}'] = {
+        paymentParams['{{ payment_type.description }}'] = {
             PBFPubKey: pay_button_params.pub_key,
-            amount: '{{ payment_method.amount }}',
-            currency: '{{ payment_method.currency }}',
-            custom_logo: '{{ payment_method.custom_logo }}',
-            custom_title: '{{ payment_method.custom_title }}',
+            amount: '{{ payment_type.amount }}',
+            currency: '{{ payment_type.currency }}',
+            custom_logo: '{{ payment_type.custom_logo }}',
+            custom_title: '{{ payment_type.custom_title }}',
             customer_email: '{{ user.email }}',
             customer_firstname: '{{ user.first_name }}',
             customer_lastname: '{{ user.last_name }}',
-            pay_button_text: '{{ payment_method.pay_button_text }}',
-            payment_options: '{{ payment_method.payment_options }}',
-            payment_plan: '{{ payment_method.payment_plan }}',
+            pay_button_text: '{{ payment_type.pay_button_text }}',
+            payment_options: '{{ payment_type.payment_options }}',
+            payment_plan: '{{ payment_type.payment_plan }}',
             txref: pay_button_params.txref,
             integrity_hash: pay_button_params.integrity_hash,
-            transaction_url: '{% url "djangorave:transaction-list" %}',
             redirect_url: pay_button_params.redirect_url
         }
     };
@@ -33,8 +32,8 @@
     src="{% rave_inline_js %}">
     </script>
 <button
-    class="rave-pay-btn {% if payment_method.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
+    class="rave-pay-btn {% if payment_type.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
     type="button"
-    onClick="payWithRave(paymentParams['{{ payment_method.description }}'])">
-    {{ payment_method.pay_button_text }}
+    onClick="payWithRave(paymentParams['{{ payment_type.description }}'])">
+    {{ payment_type.pay_button_text }}
 </button>
