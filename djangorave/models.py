@@ -20,6 +20,7 @@ class PaymentTypeModel(models.Model):
     custom_title = models.CharField(max_length=200, blank=True, null=True)
     pay_button_text = models.CharField(max_length=100, default="Sign Up")
     payment_options = models.CharField(max_length=100, default="card")
+    created_datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.description
@@ -37,9 +38,9 @@ class TransactionModel(models.Model):
         on_delete=models.CASCADE,
     )
     created_datetime = models.DateTimeField(auto_now_add=True)
-    reference = models.CharField(max_length=200, unique=True)
-    flutterwave_reference = models.CharField(max_length=200, unique=True)
-    order_reference = models.CharField(max_length=200, unique=True)
+    reference = models.CharField(max_length=200)
+    flutterwave_reference = models.CharField(max_length=200)
+    order_reference = models.CharField(max_length=200)
     amount = models.DecimalField(decimal_places=2, max_digits=9)
     charged_amount = models.DecimalField(decimal_places=2, max_digits=9)
     status = models.CharField(max_length=50)
