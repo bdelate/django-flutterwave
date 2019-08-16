@@ -1,15 +1,44 @@
 # stdlib imports
 
 # django imports
+from django.shortcuts import reverse
+from django.test import TestCase, RequestFactory
 
 # 3rd party imports
 from rest_framework.test import APITestCase, APIRequestFactory
 
 # project imports
-from djangorave.views import TransactionCreateView
+from djangorave.views import TransactionDetailView, TransactionCreateView
 from djangorave.models import TransactionModel
 from djangorave.serializers import TransactionSerializer
-from djangorave.tests.factories import PaymentTypeModelFactory, UserFactory
+from djangorave.tests.factories import (
+    PaymentTypeModelFactory,
+    UserFactory,
+    TransactionModelFactory,
+)
+
+
+class TestTransactionDetailView(TestCase):
+    """Test suite for the TransactionDetailView"""
+
+    def test_get_context_data(self):
+        """Ensure a transaction is added to the context only if a valid
+        user and reference is provided"""
+        factory = RequestFactory()
+        user = UserFactory()
+        transaction = TransactionModelFactory(user=user)
+        request = factory.get("test")
+        request.user = user
+        view = TransactionDetailView()
+        view.request = request
+
+        view.kwargs = {"reference": transaction.reference}
+        context_data = view.get_context_data()
+        self.assertEqual(transaction, context_data["transaction"])
+
+        view.kwargs = {"reference": "invalid"}
+        context_data = view.get_context_data()
+        self.assertIsNone(context_data["transaction"])
 
 
 class TestTransactionCreateView(APITestCase):

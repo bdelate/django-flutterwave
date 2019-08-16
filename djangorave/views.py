@@ -1,6 +1,7 @@
 # stdlib imports
 
 # django imports
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 
@@ -13,21 +14,21 @@ from djangorave.models import TransactionModel, PaymentTypeModel
 from djangorave.serializers import TransactionSerializer
 
 
-class TransactionDetailView(TemplateView):
+class TransactionDetailView(LoginRequiredMixin, TemplateView):
     """Returns a transaction template"""
 
     template_name = "djangorave/transaction.html"
 
     def get_context_data(self, **kwargs):
         """Add plan to context data"""
-        context_data = super().get_context_data(**kwargs)
+        kwargs = super().get_context_data(**kwargs)
         try:
-            context_data["transaction"] = TransactionModel.objects.get(
-                reference=self.kwargs["reference"]
+            kwargs["transaction"] = TransactionModel.objects.get(
+                user=self.request.user, reference=self.kwargs["reference"]
             )
         except TransactionModel.DoesNotExist:
-            context_data["transaction"] = None
-        return context_data
+            kwargs["transaction"] = None
+        return kwargs
 
 
 class TransactionCreateView(CreateModelMixin, GenericViewSet):
