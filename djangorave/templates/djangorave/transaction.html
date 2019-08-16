@@ -1,1 +1,21 @@
-{{ transaction }}
+<h1>Transaction Details</h1>
+{% if transaction %}
+<p>
+    <strong>Reference: </strong><span>{{ transaction.reference }}</span>
+</p>
+<p>
+    <strong>Created Date / Time: </strong><span>{{ transaction.created_datetime }}</span>
+</p>
+<p>
+    <strong>Amount: </strong><span>{{ transaction.amount }}</span>
+</p>
+{% else %}
+<div>
+    <p>
+        Transaction does not exist.
+    </p>
+    <p>
+        Confirmation of payment might not have been received yet. Please check back again later.
+    </p>
+</div>
+{% endif %}
