@@ -6,14 +6,14 @@
 from rest_framework.test import APITestCase, APIRequestFactory
 
 # project imports
-from djangorave.views.api import TransactionApiView
+from djangorave.views import TransactionCreateView
 from djangorave.models import TransactionModel
 from djangorave.serializers import TransactionSerializer
 from djangorave.tests.factories import PaymentTypeModelFactory, UserFactory
 
 
-class TestTransactionApiView(APITestCase):
-    """Test suite for the TransactionApiView"""
+class TestTransactionCreateView(APITestCase):
+    """Test suite for the TransactionCreateView"""
 
     def test_perform_create(self):
         """Ensure the user and payment_type are gotten from the reference and
@@ -31,7 +31,7 @@ class TestTransactionApiView(APITestCase):
         }
         request = factory.post("fake-url", data)
         request.user = user
-        view = TransactionApiView()
+        view = TransactionCreateView()
         view.request = request
         serializer = TransactionSerializer(data=data)
         serializer.is_valid()

@@ -2,6 +2,7 @@
 
 # django imports
 from django.contrib.auth import get_user_model
+from django.views.generic import TemplateView
 
 # 3rd party imports
 from rest_framework.mixins import CreateModelMixin
@@ -12,7 +13,24 @@ from djangorave.models import TransactionModel, PaymentTypeModel
 from djangorave.serializers import TransactionSerializer
 
 
-class TransactionApiView(CreateModelMixin, GenericViewSet):
+class TransactionDetailView(TemplateView):
+    """Returns a transaction template"""
+
+    template_name = "djangorave/transaction.html"
+
+    def get_context_data(self, **kwargs):
+        """Add plan to context data"""
+        context_data = super().get_context_data(**kwargs)
+        try:
+            context_data["transaction"] = TransactionModel.objects.get(
+                reference=self.kwargs["reference"]
+            )
+        except TransactionModel.DoesNotExist:
+            context_data["transaction"] = None
+        return context_data
+
+
+class TransactionCreateView(CreateModelMixin, GenericViewSet):
     """Provides an api end point to create transactions"""
 
     queryset = TransactionModel.objects.all()

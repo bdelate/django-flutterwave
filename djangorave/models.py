@@ -22,6 +22,9 @@ class PaymentTypeModel(models.Model):
     payment_options = models.CharField(max_length=100, default="card")
     created_datetime = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Payment Type"
+
     def __str__(self):
         return self.description
 
@@ -44,6 +47,9 @@ class TransactionModel(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=9)
     charged_amount = models.DecimalField(decimal_places=2, max_digits=9)
     status = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Transaction"
 
     def __str__(self):
         return self.reference

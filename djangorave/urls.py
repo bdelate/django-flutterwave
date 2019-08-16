@@ -7,17 +7,16 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 # project imports
-from djangorave.views.api import TransactionApiView
-from djangorave.views.template import TransactionView
+from djangorave.views import TransactionCreateView, TransactionDetailView
 
 
 app_name = "djangorave"
 
 router = DefaultRouter()
 
-router.register("transaction", TransactionApiView, basename="transaction")
+router.register("transaction", TransactionCreateView, basename="transaction")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("<str:reference>/", TransactionView.as_view(), name="reference"),
+    path("<str:reference>/", TransactionDetailView.as_view(), name="reference"),
 ]
