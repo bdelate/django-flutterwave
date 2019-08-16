@@ -32,3 +32,6 @@ logs:
 
 notebook:
 	@docker-compose run -p 8888:8888 django poetry run ./manage.py shell_plus --notebook
+
+import:
+	@docker-compose run django poetry run ./manage.py import
