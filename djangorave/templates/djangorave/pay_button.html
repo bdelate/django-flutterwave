@@ -1,12 +1,16 @@
 {% load static %}
 {% load djangorave_tags %}
+<!--
+    User email is required by Rave, therefore user must be signed in before
+    button will be displayed.
+-->
 <script>
     function createPaymentParams() {
         //
         // Create payment params which will be sent to Rave upon payment
         //
         {% autoescape off %}
-        let pay_button_params = JSON.parse('{% pay_button_params user=user payment_type=payment_type %}');
+        let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user=user payment_type=payment_type %}{% endif %}');
         {% endautoescape %}
         paymentParams['{{ payment_type.description }}'] = {
             PBFPubKey: pay_button_params.pub_key,
@@ -24,16 +28,19 @@
             integrity_hash: pay_button_params.integrity_hash,
             redirect_url: pay_button_params.redirect_url
         }
-    };
-    createPaymentParams();
+    }
+    if ('{{ user.is_authenticated }}' === 'True') {
+        createPaymentParams();
+    }
 </script>
-<script
-    type="text/javascript"
-    src="{% rave_inline_js %}">
-    </script>
+<script type="text/javascript" src="{% rave_inline_js %}"></script>
+{% if user.is_authenticated %}
 <button
     class="rave-pay-btn {% if payment_type.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
     type="button"
     onClick="payWithRave(paymentParams['{{ payment_type.description }}'])">
     {{ payment_type.pay_button_text }}
 </button>
+{% else %}
+<span>User must be signed in</span>
+{% endif %}
