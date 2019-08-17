@@ -112,6 +112,17 @@ The following css classes are available for styling your payment buttons:
 - `rave-subscription-btn` will apply to recurring payment types (ie: those with a `payment_plan`).
 - `rave-onceoff-btn` will apply to once off payment types (ie: those without a `payment_plan`).
 
+# Transaction Detail Page
+
+Following a user payment, they will be redirected to the transaction detail page
+located at `/djangorave/<str:reference>/`
+
+A default transaction detail template is already available, however if you want
+to override it, you may do so by creating a new template in your root
+templates directory, ie: `/templates/djangorave/transaction.html`
+
+You will have access to `{{ transaction }}` within that template.
+
 # Development
 
 If you wish to contribute to the project, there is an example app that demonstrates
