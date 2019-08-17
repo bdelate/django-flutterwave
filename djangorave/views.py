@@ -6,8 +6,7 @@ from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 
 # 3rd party imports
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.generics import CreateAPIView
 
 # project imports
 from djangorave.models import TransactionModel, PaymentTypeModel
@@ -31,7 +30,7 @@ class TransactionDetailView(LoginRequiredMixin, TemplateView):
         return kwargs
 
 
-class TransactionCreateView(CreateModelMixin, GenericViewSet):
+class TransactionCreateView(CreateAPIView):
     """Provides an api end point to create transactions"""
 
     queryset = TransactionModel.objects.all()
