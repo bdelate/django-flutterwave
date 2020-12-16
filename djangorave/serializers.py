@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 # project imports
-from djangorave.models import TransactionModel, PaymentTypeModel
+from djangorave.models import DRTransactionModel, DRPaymentTypeModel
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     orderRef = serializers.CharField(source="order_reference")
 
     class Meta:
-        model = TransactionModel
+        model = DRTransactionModel
         fields = ("txRef", "flwRef", "orderRef", "amount", "charged_amount", "status")
 
     def validate_reference(self, value: str) -> str:
@@ -28,8 +28,8 @@ class TransactionSerializer(serializers.ModelSerializer):
         user_id = value.split("__")[2]
 
         try:
-            PaymentTypeModel.objects.get(id=payment_type_id)
-        except PaymentTypeModel.DoesNotExist:
+            DRPaymentTypeModel.objects.get(id=payment_type_id)
+        except DRPaymentTypeModel.DoesNotExist:
             raise serializers.ValidationError("Payment type does not exist")
 
         UserModel = get_user_model()

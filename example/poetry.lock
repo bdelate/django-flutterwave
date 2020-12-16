@@ -198,6 +198,24 @@ python-versions = "*"
 six = ">=1.2"
 
 [[package]]
+name = "djangorave"
+version = "0.1.2"
+description = "Django integration for Flutterwave Rave Card payments and subscriptions"
+category = "main"
+optional = false
+python-versions = ">=3.6 <4"
+develop = true
+
+[package.dependencies]
+django = ">=2.2 <4"
+djangorestframework = "^3.10"
+requests = "^2.22"
+
+[package.source]
+type = "directory"
+url = ".."
+
+[[package]]
 name = "djangorestframework"
 version = "3.12.2"
 description = "Web APIs for Django, made easy."
@@ -1054,7 +1072,7 @@ testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6 <4"
-content-hash = "6bb4930dfea02d3f972959eae17ea934f8a07bdc10cb1cfc117306df841d75a5"
+content-hash = "2363f562b446e09ef893e4789b34a3b383f9d8e8e460759090b7f49dd9b0eb1b"
 
 [metadata.files]
 appdirs = [
@@ -1211,6 +1229,7 @@ django-extensions = [
     {file = "django-extensions-2.2.9.tar.gz", hash = "sha256:2f81b618ba4d1b0e58603e25012e5c74f88a4b706e0022a3b21f24f0322a6ce6"},
     {file = "django_extensions-2.2.9-py2.py3-none-any.whl", hash = "sha256:b19182d101a441fe001c5753553a901e2ef3ff60e8fbbe38881eb4a61fdd17c4"},
 ]
+djangorave = []
 djangorestframework = [
     {file = "djangorestframework-3.12.2-py3-none-any.whl", hash = "sha256:0209bafcb7b5010fdfec784034f059d512256424de2a0f084cb82b096d6dd6a7"},
 ]

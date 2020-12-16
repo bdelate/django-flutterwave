@@ -7,7 +7,7 @@ from django.test import TestCase
 # 3rd party imports
 
 # project imports
-from djangorave.tests.factories import PaymentTypeModelFactory, UserFactory
+from djangorave.tests.factories import DRPaymentTypeModelFactory, UserFactory
 from djangorave.utils import create_integrity_hash
 
 
@@ -19,7 +19,7 @@ class TestUtils(TestCase):
         """Ensure the correct hash is returned for a plan"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
-        payment_type = PaymentTypeModelFactory(
+        payment_type = DRPaymentTypeModelFactory(
             amount=10,
             currency="USD",
             custom_logo="http://example.com/eg.png",
@@ -45,7 +45,7 @@ class TestUtils(TestCase):
         """Ensure the correct hash is returned for a onceoff payment"""
         mock_rave_settings.PUBLIC_KEY = "test"
         mock_rave_settings.SECRET_KEY = "test"
-        payment_type = PaymentTypeModelFactory(
+        payment_type = DRPaymentTypeModelFactory(
             amount=10,
             currency="USD",
             custom_logo="http://example.com/eg.png",

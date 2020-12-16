@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 
 # project imports
 from djangorave.serializers import TransactionSerializer
-from djangorave.tests.factories import PaymentTypeModelFactory, UserFactory
+from djangorave.tests.factories import DRPaymentTypeModelFactory, UserFactory
 
 
 class TestTransactionSerializer(TestCase):
@@ -17,7 +17,7 @@ class TestTransactionSerializer(TestCase):
     def test_validate_reference(self):
         """Ensure the serializer raises an exception for an invalid
         payment_type_id or user_id """
-        payment_type = PaymentTypeModelFactory()
+        payment_type = DRPaymentTypeModelFactory()
         user = UserFactory()
 
         expected_response = f"{payment_type.id}__test__{user.id}"

@@ -10,7 +10,7 @@
         // Create payment params which will be sent to Rave upon payment
         //
         {% autoescape off %}
-        let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user=user payment_type=payment_type %}{% endif %}');
+        let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user_pk=user.pk payment_type_pk=payment_type.pk %}{% endif %}');
         {% endautoescape %}
         paymentParams['{{ payment_type.description }}'] = {
             PBFPubKey: pay_button_params.pub_key,

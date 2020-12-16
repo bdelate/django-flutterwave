@@ -9,7 +9,7 @@ from django.db import models
 # project imports
 
 
-class PaymentTypeModel(models.Model):
+class DRPaymentTypeModel(models.Model):
     """Represents either a Plan or OnceOff payment type"""
 
     description = models.CharField(max_length=50, unique=True)
@@ -24,20 +24,21 @@ class PaymentTypeModel(models.Model):
 
     class Meta:
         verbose_name = "Payment Type"
+        verbose_name_plural = "Payment Types"
 
     def __str__(self):
         return self.description
 
 
-class TransactionModel(models.Model):
+class DRTransactionModel(models.Model):
     """Represents a transaction for a specific payment type and user"""
 
     payment_type = models.ForeignKey(
-        to=PaymentTypeModel, related_name="transactions", on_delete=models.CASCADE
+        to=DRPaymentTypeModel, related_name="dr_transactions", on_delete=models.CASCADE
     )
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
-        related_name="transactions",
+        related_name="dr_transactions",
         on_delete=models.CASCADE,
     )
     created_datetime = models.DateTimeField(auto_now_add=True)
@@ -50,6 +51,7 @@ class TransactionModel(models.Model):
 
     class Meta:
         verbose_name = "Transaction"
+        verbose_name_plural = "Transactions"
 
     def __str__(self):
         return self.reference

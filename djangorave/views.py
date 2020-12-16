@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 from rest_framework.generics import CreateAPIView
 
 # project imports
-from djangorave.models import TransactionModel, PaymentTypeModel
+from djangorave.models import DRTransactionModel, DRPaymentTypeModel
 from djangorave.serializers import TransactionSerializer
 
 
@@ -22,10 +22,10 @@ class TransactionDetailView(LoginRequiredMixin, TemplateView):
         """Add plan to context data"""
         kwargs = super().get_context_data(**kwargs)
         try:
-            kwargs["transaction"] = TransactionModel.objects.get(
+            kwargs["transaction"] = DRTransactionModel.objects.get(
                 user=self.request.user, reference=self.kwargs["reference"]
             )
-        except TransactionModel.DoesNotExist:
+        except DRTransactionModel.DoesNotExist:
             kwargs["transaction"] = None
         return kwargs
 
@@ -33,7 +33,7 @@ class TransactionDetailView(LoginRequiredMixin, TemplateView):
 class TransactionCreateView(CreateAPIView):
     """Provides an api end point to create transactions"""
 
-    queryset = TransactionModel.objects.all()
+    queryset = DRTransactionModel.objects.all()
     serializer_class = TransactionSerializer
     authentication_classes: list = []
 
@@ -45,5 +45,5 @@ class TransactionCreateView(CreateAPIView):
         user_id = reference.split("__")[2]
         serializer.save(
             user=get_user_model().objects.get(id=user_id),
-            payment_type=PaymentTypeModel.objects.get(id=payment_type_id),
+            payment_type=DRPaymentTypeModel.objects.get(id=payment_type_id),
         )
