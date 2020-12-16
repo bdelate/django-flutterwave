@@ -9,12 +9,12 @@ from rest_framework.test import APITestCase, APIRequestFactory
 
 # project imports
 from djangorave.views import TransactionDetailView, TransactionCreateView
-from djangorave.models import TransactionModel
+from djangorave.models import DRTransactionModel
 from djangorave.serializers import TransactionSerializer
 from djangorave.tests.factories import (
-    PaymentTypeModelFactory,
+    DRPaymentTypeModelFactory,
     UserFactory,
-    TransactionModelFactory,
+    DRTransactionModelFactory,
 )
 
 
@@ -26,7 +26,7 @@ class TestTransactionDetailView(TestCase):
         user and reference is provided"""
         factory = RequestFactory()
         user = UserFactory()
-        transaction = TransactionModelFactory(user=user)
+        transaction = DRTransactionModelFactory(user=user)
         request = factory.get("test")
         request.user = user
         view = TransactionDetailView()
@@ -48,7 +48,7 @@ class TestTransactionCreateView(APITestCase):
         """Ensure the user and payment_type are gotten from the reference and
         saved to the Transaction instance"""
         user = UserFactory()
-        payment_type = PaymentTypeModelFactory()
+        payment_type = DRPaymentTypeModelFactory()
         factory = APIRequestFactory()
         data = {
             "txRef": f"{payment_type.id}__test__{user.id}",
@@ -66,7 +66,7 @@ class TestTransactionCreateView(APITestCase):
         serializer.is_valid()
         view.perform_create(serializer=serializer)
 
-        self.assertEqual(TransactionModel.objects.count(), 1)
-        transaction = TransactionModel.objects.first()
+        self.assertEqual(DRTransactionModel.objects.count(), 1)
+        transaction = DRTransactionModel.objects.first()
         self.assertEqual(transaction.user.id, user.id)
         self.assertEqual(transaction.payment_type.id, payment_type.id)

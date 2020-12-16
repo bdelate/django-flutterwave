@@ -4,7 +4,7 @@
 from django.contrib import admin
 
 # project imports
-from djangorave.models import PaymentTypeModel, TransactionModel
+from djangorave.models import DRPaymentTypeModel, DRTransactionModel
 
 # project imports
 
@@ -21,5 +21,5 @@ class TransactionAdmin(admin.ModelAdmin):
     readonly_fields = ("created_datetime",)
 
 
-admin.site.register(PaymentTypeModel, PaymentTypeAdmin)
-admin.site.register(TransactionModel, TransactionAdmin)
+admin.site.register(DRPaymentTypeModel, PaymentTypeAdmin)
+admin.site.register(DRTransactionModel, TransactionAdmin)

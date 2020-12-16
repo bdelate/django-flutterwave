@@ -62,9 +62,9 @@ http://yoursite.com/djangorave/transaction/
 
 `djangorave` provides two models, namely:
 
-- The `PaymentTypeModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `payment_plan` field
+- The `DRPaymentTypeModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `payment_plan` field
 corresponds to the Rave `Plan ID`.
-- The `TransactionModel` creates transactions when Rave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `PaymentTypeModel` and `user`.
+- The `DRTransactionModel` creates transactions when Rave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `DRPaymentTypeModel` and `user`.
 
 A payment button can be created as follows:
 
@@ -72,7 +72,7 @@ A payment button can be created as follows:
 2. In the view where you wish the button to appear, add the above created `PaymentType` to your context, eg:
 
 ```python
-from djangorave.models import PaymentTypeModel
+from djangorave.models import DRPaymentTypeModel
 
 class SignUpView(TemplateView):
     """Sign Up view"""
@@ -82,7 +82,7 @@ class SignUpView(TemplateView):
     def get_context_data(self, **kwargs):
         """Add payment type to context data"""
         kwargs = super().get_context_data(**kwargs)
-        kwargs["pro_plan"] = PaymentTypeModel.objects.filter(
+        kwargs["pro_plan"] = DRPaymentTypeModel.objects.filter(
             description="Pro Plan"
         ).first()
         return kwargs

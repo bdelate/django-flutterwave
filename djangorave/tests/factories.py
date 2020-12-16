@@ -8,11 +8,11 @@ from factory import fuzzy, DjangoModelFactory
 import factory
 
 # project imports
-from djangorave.models import PaymentTypeModel, TransactionModel
+from djangorave.models import DRPaymentTypeModel, DRTransactionModel
 
 
-class PaymentTypeModelFactory(DjangoModelFactory):
-    """Factory for the PaymentTypeModel"""
+class DRPaymentTypeModelFactory(DjangoModelFactory):
+    """Factory for the DRPaymentTypeModel"""
 
     description = factory.Faker("word")
     amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
@@ -20,7 +20,7 @@ class PaymentTypeModelFactory(DjangoModelFactory):
     custom_title = factory.Faker("word")
 
     class Meta:
-        model = PaymentTypeModel
+        model = DRPaymentTypeModel
 
 
 class UserFactory(DjangoModelFactory):
@@ -39,10 +39,10 @@ class UserFactory(DjangoModelFactory):
         model = get_user_model()
 
 
-class TransactionModelFactory(DjangoModelFactory):
-    """Factory for the TransactionModel"""
+class DRTransactionModelFactory(DjangoModelFactory):
+    """Factory for the DRTransactionModel"""
 
-    payment_type = factory.SubFactory(PaymentTypeModelFactory)
+    payment_type = factory.SubFactory(DRPaymentTypeModelFactory)
     user = factory.SubFactory(UserFactory)
     reference = factory.Faker("word")
     flutterwave_reference = factory.Faker("word")
@@ -52,4 +52,4 @@ class TransactionModelFactory(DjangoModelFactory):
     status = fuzzy.FuzzyChoice(choices=["successful", "failed"])
 
     class Meta:
-        model = TransactionModel
+        model = DRTransactionModel

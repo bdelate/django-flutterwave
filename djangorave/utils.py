@@ -7,15 +7,15 @@ from django.contrib.auth.models import User
 # 3rd party imports
 
 # project imports
-from djangorave.models import PaymentTypeModel
+from djangorave.models import DRPaymentTypeModel
 from djangorave import settings
 
 
 def create_integrity_hash(
-    payment_type: PaymentTypeModel, user: User, txref: str, redirect_url: str
+    payment_type: DRPaymentTypeModel, user: User, txref: str, redirect_url: str
 ) -> str:
     """Returns an integrity hash created from the provided user and payment 
-    details which is used by rave to ensure client side values are not altered. """
+    details which is used by rave to ensure client side values are not altered."""
     data = {
         "PBFPubKey": settings.PUBLIC_KEY,
         "amount": payment_type.amount,

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "djangorave"
-version = "0.1.1"
+version = "0.1.2"
 description = "Django integration for Flutterwave Rave Card payments and subscriptions"
 authors = ["Brendon Delate <brendon.delate@gmail.com>"]
 license = "MIT"
@@ -20,22 +20,26 @@ classifiers=[
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries",
     "Topic :: Utilities",
     "Environment :: Web Environment",
     "Framework :: Django",
-    "Framework :: Django :: 2.2",
+]
+
+packages = [
+    { include = "djangorave" },
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.6 <4"
-django = "^2.2"
+django = ">=2.2 <4"
 requests = "^2.22"
 djangorestframework = "^3.10"
 
 [tool.poetry.dev-dependencies]
-black = {version = "=19.3b0",allows-prereleases = true}
+black = {version = "=19.3b0",allow-prereleases = true}
 mypy = "^0.720.0"
 twine = "^1.13"
 coverage = "^4.5"
@@ -44,5 +48,5 @@ jupyter = "^1.0"
 factory-boy = "^2.12"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
