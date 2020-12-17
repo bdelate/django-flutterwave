@@ -10,7 +10,7 @@ from rest_framework.test import APITestCase, APIRequestFactory
 # project imports
 from djangorave.views import TransactionDetailView, TransactionCreateView
 from djangorave.models import DRTransactionModel
-from djangorave.serializers import TransactionSerializer
+from djangorave.serializers import DRTransactionSerializer
 from djangorave.tests.factories import (
     DRPaymentTypeModelFactory,
     UserFactory,
@@ -62,7 +62,7 @@ class TestTransactionCreateView(APITestCase):
         request.user = user
         view = TransactionCreateView()
         view.request = request
-        serializer = TransactionSerializer(data=data)
+        serializer = DRTransactionSerializer(data=data)
         serializer.is_valid()
         view.perform_create(serializer=serializer)
 

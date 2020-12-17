@@ -10,8 +10,11 @@ from rest_framework import serializers
 from djangorave.models import DRTransactionModel, DRPaymentTypeModel
 
 
-class TransactionSerializer(serializers.ModelSerializer):
-    """Serializer for the Transaction Model"""
+UserModel = get_user_model()
+
+
+class DRTransactionSerializer(serializers.ModelSerializer):
+    """Serializer for the DRTransactionModel Model"""
 
     txRef = serializers.CharField(source="reference")
     flwRef = serializers.CharField(source="flutterwave_reference")
@@ -24,17 +27,14 @@ class TransactionSerializer(serializers.ModelSerializer):
     def validate_reference(self, value: str) -> str:
         """Ensure the received reference contains a valid payment_type_id and
         user_id"""
-        payment_type_id = value.split("__")[0]
-        user_id = value.split("__")[2]
-
         try:
+            payment_type_id = value.split("__")[0]
             DRPaymentTypeModel.objects.get(id=payment_type_id)
         except DRPaymentTypeModel.DoesNotExist:
             raise serializers.ValidationError("Payment type does not exist")
 
-        UserModel = get_user_model()
-        payment_type_id = value.split("__")[0]
         try:
+            user_id = value.split("__")[2]
             UserModel.objects.get(id=user_id)
         except UserModel.DoesNotExist:
             raise serializers.ValidationError("User does not exist")
