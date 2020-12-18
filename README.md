@@ -35,13 +35,13 @@ Add the following to your `settings.py`:
 ```python
 RAVE_PRODUCTION_PUBLIC_KEY = "your key"
 RAVE_PRODUCTION_SECRET_KEY = "your key"
-RAVE_SANDBOX_PUBLIC_KEY = "your key"
-RAVE_SANDBOX_SECRET_KEY = "your key"
-RAVE_SANDBOX = True
+FLW_SANDBOX_PUBLIC_KEY = "your key"
+FLW_SANDBOX_SECRET_KEY = "your key"
+FLW_SANDBOX = True
 ```
 
 The above config will ensure `djangorave` uses your Rave sandbox. Once you are
-ready to go live, set `RAVE_SANDBOX = False`
+ready to go live, set `FLW_SANDBOX = False`
 
 Add `djangorave` to your `urls.py`:
 
@@ -145,9 +145,9 @@ There is a section at the bottom of `django-rave/example/example/settings.py`. E
 ```python
 RAVE_PRODUCTION_PUBLIC_KEY = "your key"
 RAVE_PRODUCTION_SECRET_KEY = "your key"
-RAVE_SANDBOX_PUBLIC_KEY = "your key"
-RAVE_SANDBOX_SECRET_KEY = "your key"
-RAVE_SANDBOX = True
+FLW_SANDBOX_PUBLIC_KEY = "your key"
+FLW_SANDBOX_SECRET_KEY = "your key"
+FLW_SANDBOX = True
 ```
 
 Flutterwave Rave requires payments to be associated with users who have an email address.

@@ -36,6 +36,6 @@ def pay_button_params(user_pk: str, plan_pk: str) -> str:
         {
             "tx_ref": tx_ref,
             "redirect_url": redirect_url,
-            "public_key": settings.PUBLIC_KEY,
+            "public_key": settings.FLW_PUBLIC_KEY,
         }
     )

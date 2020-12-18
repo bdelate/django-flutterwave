@@ -21,7 +21,7 @@ class TestTemplateTags(TestCase):
         """Ensure a json string is returned containing the correct tx_ref,
         public_key and redirect_url"""
         mock_reverse.return_value = "test"
-        mock_rave_settings.PUBLIC_KEY = "test"
+        mock_rave_settings.FLW_PUBLIC_KEY = "test"
         mock_timezone.now.return_value.timestamp.return_value = "test"
         plan = DRPlanModelFactory()
         user = UserFactory()
