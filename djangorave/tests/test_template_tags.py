@@ -8,7 +8,7 @@ from django.test import TestCase
 
 # project imports
 from djangorave.tests.factories import DRPlanModelFactory, UserFactory
-from djangorave.templatetags.djangorave_tags import pay_button_params, rave_inline_js
+from djangorave.templatetags.djangorave_tags import pay_button_params
 
 
 class TestTemplateTags(TestCase):
@@ -32,12 +32,4 @@ class TestTemplateTags(TestCase):
         )
         actual_response = pay_button_params(user_pk=user.pk, plan_pk=plan.pk)
         mock_reverse.assert_called()
-        self.assertEqual(expected_response, actual_response)
-
-    @patch("djangorave.templatetags.djangorave_tags.settings")
-    def test_rave_inline_js(self, mock_rave_settings):
-        """Ensure the RAVE_INLINE_JS setting is returned"""
-        mock_rave_settings.RAVE_INLINE_JS = "test"
-        expected_response = "test"
-        actual_response = rave_inline_js()
         self.assertEqual(expected_response, actual_response)

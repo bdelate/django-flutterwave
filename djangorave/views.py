@@ -45,8 +45,7 @@ class TransactionCreateView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         """Override create to specify request.data['data'] for serializer data"""
         serializer = self.get_serializer(data=request.data.get("data", None))
-        serializer.is_valid()
-        print(serializer.errors)
+        serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
@@ -54,8 +53,8 @@ class TransactionCreateView(CreateAPIView):
         )
 
     def perform_create(self, serializer: DRTransactionSerializer) -> None:
-        """Add plan and user to Transaction instance, determined
-        from the received reference"""
+        """Add plan and user to Transaction instance, determined from the received
+        reference"""
         reference = serializer.validated_data["tx_ref"]
         plan_id = reference.split("__")[0]
         user_id = reference.split("__")[2]

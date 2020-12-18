@@ -39,9 +39,3 @@ def pay_button_params(user_pk: str, plan_pk: str) -> str:
             "public_key": settings.PUBLIC_KEY,
         }
     )
-
-
-@register.simple_tag()
-def rave_inline_js() -> str:
-    """Return the RAVE_INLINE_JS setting"""
-    return settings.RAVE_INLINE_JS

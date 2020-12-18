@@ -14,10 +14,10 @@ from djangorave.models import DRPlanModel, DRTransactionModel
 class DRPlanModelFactory(DjangoModelFactory):
     """Factory for the DRPlanModel"""
 
-    description = factory.Faker("word")
+    name = factory.Faker("word")
     amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
     currency = fuzzy.FuzzyChoice(choices=["USD", "ZAR", "EUR"])
-    custom_title = factory.Faker("word")
+    modal_title = factory.Faker("word")
 
     class Meta:
         model = DRPlanModel
@@ -30,7 +30,7 @@ class UserFactory(DjangoModelFactory):
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     email = factory.Faker("email")
-    password = factory.PostGenerationMethodCall("set_password", "secret")
+    password = factory.PostGenerationMethodCall("set_password", "adminadmin")
     is_active = True
     is_staff = False
     is_superuser = False

@@ -62,7 +62,7 @@ http://yoursite.com/djangorave/transaction/
 
 `djangorave` provides two models, namely:
 
-- The `DRPlanModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `payment_plan` field
+- The `DRPlanModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `flw_plan_id` field
 corresponds to the Rave `Plan ID`.
 - The `DRTransactionModel` creates transactions when Rave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `DRPlanModel` and `user`.
 
@@ -83,7 +83,7 @@ class SignUpView(TemplateView):
         """Add payment type to context data"""
         kwargs = super().get_context_data(**kwargs)
         kwargs["pro_plan"] = DRPlanModel.objects.filter(
-            description="Pro Plan"
+            name="Pro Plan"
         ).first()
         return kwargs
 ```
@@ -98,9 +98,10 @@ class SignUpView(TemplateView):
 plans to your context data and then including each of them with their own `include`
 tag as above.
 
-4. Add the following script to your django base template (or anywhere in your template heirarchy that ensures it is loaded before your payment buttons):
+4. Add the following to your django base template (or anywhere in your template heirarchy that ensures it is loaded before your payment buttons):
 
 ```html
+<script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>
 <script src="{% static 'djangorave/js/payment.js' %}"></script>
 ```
 
@@ -109,8 +110,8 @@ tag as above.
 The following css classes are available for styling your payment buttons:
 
 - `rave-pay-btn` will apply to all buttons.
-- `rave-subscription-btn` will apply to recurring payment types (ie: those with a `payment_plan`).
-- `rave-onceoff-btn` will apply to once off payment types (ie: those without a `payment_plan`).
+- `rave-subscription-btn` will apply to recurring payment types (ie: those with a `flw_plan_id`).
+- `rave-onceoff-btn` will apply to once off payment types (ie: those without a `flw_plan_id`).
 
 # Transaction Detail Page
 
@@ -154,8 +155,8 @@ Therefore, create and login with a new django user or use the existing user alre
 generated following the above import command:
 
 ```
-username: testuser
-password: secret
+username: admin
+password: adminadmin
 ```
 
 Navigate to http://localhost:8000/

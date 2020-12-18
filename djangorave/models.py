@@ -15,14 +15,32 @@ UserModel = get_user_model()
 class DRPlanModel(models.Model):
     """Represents either a Plan or OnceOff payment type"""
 
-    description = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     amount = models.DecimalField(decimal_places=2, max_digits=9)
-    payment_plan = models.PositiveIntegerField(unique=True, blank=True, null=True)
+    flw_plan_id = models.PositiveIntegerField(
+        unique=True,
+        blank=True,
+        null=True,
+        help_text="Flutterwave plan id. Only required if this is a subscription plan.",
+    )
     currency = models.CharField(max_length=3, default="USD")
-    custom_logo = models.URLField(max_length=500, blank=True, null=True)
-    custom_title = models.CharField(max_length=200, blank=True, null=True)
-    pay_button_text = models.CharField(max_length=100, default="Sign Up")
-    payment_options = models.CharField(max_length=100, default="card")
+    modal_logo_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="URL to logo image to be displayed on payment modal.",
+    )
+    modal_title = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="Title to be displayed on payment modal.",
+    )
+    pay_button_text = models.CharField(
+        max_length=100,
+        default="Sign Up",
+        help_text="Text used for button when displayed in a template.",
+    )
     created_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -30,7 +48,7 @@ class DRPlanModel(models.Model):
         verbose_name_plural = "Plans"
 
     def __str__(self):
-        return self.description
+        return self.name
 
 
 class DRTransactionModel(models.Model):

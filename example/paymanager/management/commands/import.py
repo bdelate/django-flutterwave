@@ -19,20 +19,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         get_user_model().objects.all().delete()
-        UserFactory(username="testuser", is_staff=True, is_superuser=True)
+        UserFactory(username="admin", is_staff=True, is_superuser=True)
 
         DRPlanModel.objects.all().delete()
         DRPlanModelFactory(
-            description="Once off Purchase",
-            custom_title="Purchase this item",
+            name="Once off Purchase",
+            modal_title="Purchase this item",
             currency="USD",
             pay_button_text="Buy Now",
         )
         DRPlanModelFactory(
-            description="Subscription Plan",
-            custom_title="Sign Up to this plan",
+            name="Subscription Plan",
+            modal_title="Sign Up to this plan",
             currency="USD",
             pay_button_text="Sign Up",
-            payment_plan=123,
+            flw_plan_id=123,
         )
         print("\nData imported")

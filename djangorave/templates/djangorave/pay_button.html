@@ -1,4 +1,3 @@
-{% load static %}
 {% load djangorave_tags %}
 <!--
     User email is required by Rave, therefore user must be signed in before
@@ -12,22 +11,20 @@
         {% autoescape off %}
         let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user_pk=user.pk plan_pk=plan.pk %}{% endif %}');
         {% endautoescape %}
-        paymentParams['{{ plan.description }}'] = {
+        paymentParams['{{ plan.name }}'] = {
             public_key: pay_button_params.public_key,
             tx_ref: pay_button_params.tx_ref,
             amount: '{{ plan.amount }}',
             currency: '{{ plan.currency }}',
-            payment_options: '{{ plan.payment_options }}',
             redirect_url: pay_button_params.redirect_url,
-            payment_plan: '{{ plan.payment_plan }}',
+            flw_plan_id: '{{ plan.flw_plan_id }}',
             customer: {
                 email: '{{ user.email }}',
                 name: '{{ user.first_name }} {{ user.last_name }}',
             },
             customizations: {
-                title: 'title here',
-                description: 'desc here',
-                logo: '',
+                title: '{{ plan.modal_title }}',
+                logo: '{{ plan.modal_logo_url }}',
             },
         }
     }
@@ -35,12 +32,12 @@
         createPaymentParams();
     }
 </script>
-<script type="text/javascript" src="{% rave_inline_js %}"></script>
+
 {% if user.is_authenticated %}
 <button
-    class="rave-pay-btn {% if plan.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
+    class="rave-pay-btn {% if plan.flw_plan_id %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
     type="button"
-    onClick="makePayment(paymentParams['{{ plan.description }}'])">
+    onClick="makePayment(paymentParams['{{ plan.name }}'])">
     {{ plan.pay_button_text }}
 </button>
 {% else %}

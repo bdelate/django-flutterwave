@@ -17,12 +17,6 @@ RAVE_SANDBOX = getattr(settings, "RAVE_SANDBOX", True)
 if RAVE_SANDBOX:
     PUBLIC_KEY = getattr(settings, "RAVE_SANDBOX_PUBLIC_KEY", "not set")
     SECRET_KEY = getattr(settings, "RAVE_SANDBOX_SECRET_KEY", "not set")
-    RAVE_INLINE_JS = getattr(
-        settings, "RAVE_SANDBOX_INLINE_JS", "https://checkout.flutterwave.com/v3.js"
-    )
 else:
     PUBLIC_KEY = getattr(settings, "RAVE_PRODUCTION_PUBLIC_KEY", "not set")
     SECRET_KEY = getattr(settings, "RAVE_PRODUCTION_SECRET_KEY", "not set")
-    RAVE_INLINE_JS = getattr(
-        settings, "RAVE_PRODUCTION_INLINE_JS", "https://checkout.flutterwave.com/v3.js"
-    )

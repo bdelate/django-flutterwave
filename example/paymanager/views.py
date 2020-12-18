@@ -18,10 +18,10 @@ class SignUpView(TemplateView):
         """Add plan to context data"""
         context_data = super().get_context_data(**kwargs)
         context_data["pro_plan"] = DRPlanModel.objects.filter(
-            payment_plan__isnull=False
+            flw_plan_id__isnull=False
         ).first()
         context_data["buy_now"] = DRPlanModel.objects.filter(
-            payment_plan__isnull=True
+            flw_plan_id__isnull=True
         ).first()
         return context_data
 

@@ -10,14 +10,14 @@ from djangorave.models import DRPlanModel, DRTransactionModel
 
 
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ("description", "amount", "payment_plan")
-    search_fields = ("description",)
+    list_display = ("name", "amount", "flw_plan_id")
+    search_fields = ("name",)
     readonly_fields = ("created_datetime",)
 
 
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ("user", "plan", "tx_ref", "amount", "created_datetime")
-    search_fields = ("user__username", "plan__description", "tx_ref")
+    search_fields = ("user__username", "plan__name", "tx_ref")
     readonly_fields = ("created_datetime",)
 
 
