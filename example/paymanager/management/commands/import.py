@@ -8,8 +8,8 @@ from django.core.management.base import BaseCommand
 # 3rd party imports
 
 # project imports
-from djangorave.models import DRPlanModel
-from djangorave.tests.factories import DRPlanModelFactory, UserFactory
+from djangoflutterwave.models import FlwPlanModel
+from djangoflutterwave.tests.factories import FlwPlanModelFactory, UserFactory
 
 
 class Command(BaseCommand):
@@ -21,14 +21,14 @@ class Command(BaseCommand):
         get_user_model().objects.all().delete()
         UserFactory(username="admin", is_staff=True, is_superuser=True)
 
-        DRPlanModel.objects.all().delete()
-        DRPlanModelFactory(
+        FlwPlanModel.objects.all().delete()
+        FlwPlanModelFactory(
             name="Once off Purchase",
             modal_title="Purchase this item",
             currency="USD",
             pay_button_text="Buy Now",
         )
-        DRPlanModelFactory(
+        FlwPlanModelFactory(
             name="Subscription Plan",
             modal_title="Sign Up to this plan",
             currency="USD",

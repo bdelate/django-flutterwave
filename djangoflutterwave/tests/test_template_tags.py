@@ -7,23 +7,23 @@ from django.test import TestCase
 # 3rd party imports
 
 # project imports
-from djangorave.tests.factories import DRPlanModelFactory, UserFactory
-from djangorave.templatetags.djangorave_tags import pay_button_params
+from djangoflutterwave.tests.factories import FlwPlanModelFactory, UserFactory
+from djangoflutterwave.templatetags.djangoflutterwave_tags import pay_button_params
 
 
 class TestTemplateTags(TestCase):
     """Test suite for template tags"""
 
-    @patch("djangorave.templatetags.djangorave_tags.timezone")
-    @patch("djangorave.templatetags.djangorave_tags.settings")
-    @patch("djangorave.templatetags.djangorave_tags.reverse")
-    def test_pay_button_params(self, mock_reverse, mock_rave_settings, mock_timezone):
+    @patch("djangoflutterwave.templatetags.djangoflutterwave_tags.timezone")
+    @patch("djangoflutterwave.templatetags.djangoflutterwave_tags.settings")
+    @patch("djangoflutterwave.templatetags.djangoflutterwave_tags.reverse")
+    def test_pay_button_params(self, mock_reverse, mock_settings, mock_timezone):
         """Ensure a json string is returned containing the correct tx_ref,
         public_key and redirect_url"""
         mock_reverse.return_value = "test"
-        mock_rave_settings.FLW_PUBLIC_KEY = "test"
+        mock_settings.FLW_PUBLIC_KEY = "test"
         mock_timezone.now.return_value.timestamp.return_value = "test"
-        plan = DRPlanModelFactory()
+        plan = FlwPlanModelFactory()
         user = UserFactory()
 
         expected_response = (

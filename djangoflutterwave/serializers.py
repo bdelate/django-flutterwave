@@ -7,17 +7,17 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 # project imports
-from djangorave.models import DRTransactionModel, DRPlanModel
+from djangoflutterwave.models import FlwTransactionModel, FlwPlanModel
 
 
 UserModel = get_user_model()
 
 
 class DRTransactionSerializer(serializers.ModelSerializer):
-    """Serializer for the DRTransactionModel Model"""
+    """Serializer for the FlwTransactionModel Model"""
 
     class Meta:
-        model = DRTransactionModel
+        model = FlwTransactionModel
         fields = (
             "tx_ref",
             "flw_ref",
@@ -42,8 +42,8 @@ class DRTransactionSerializer(serializers.ModelSerializer):
         user_id"""
         try:
             plan_id = value.split("__")[0]
-            DRPlanModel.objects.get(id=plan_id)
-        except DRPlanModel.DoesNotExist:
+            FlwPlanModel.objects.get(id=plan_id)
+        except FlwPlanModel.DoesNotExist:
             raise serializers.ValidationError("Payment type does not exist")
 
         try:

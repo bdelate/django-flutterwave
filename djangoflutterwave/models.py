@@ -1,7 +1,6 @@
 # stdlib import
 
 # django imports
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -12,7 +11,7 @@ from django.db import models
 UserModel = get_user_model()
 
 
-class DRPlanModel(models.Model):
+class FlwPlanModel(models.Model):
     """Represents either a Plan or OnceOff payment type"""
 
     name = models.CharField(max_length=50, unique=True)
@@ -57,14 +56,14 @@ class DRPlanModel(models.Model):
         return self.name
 
 
-class DRTransactionModel(models.Model):
+class FlwTransactionModel(models.Model):
     """Represents a transaction for a specific payment type and user"""
 
     plan = models.ForeignKey(
-        to=DRPlanModel, related_name="dr_transactions", on_delete=models.CASCADE
+        to=FlwPlanModel, related_name="flw_transactions", on_delete=models.CASCADE
     )
     user = models.ForeignKey(
-        to=UserModel, related_name="dr_transactions", on_delete=models.CASCADE
+        to=UserModel, related_name="flw_transactions", on_delete=models.CASCADE
     )
     created_datetime = models.DateTimeField(auto_now_add=True)
     tx_ref = models.CharField(max_length=100)
