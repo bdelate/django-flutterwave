@@ -8,8 +8,8 @@ from django.core.management.base import BaseCommand
 # 3rd party imports
 
 # project imports
-from djangorave.models import DRPaymentTypeModel
-from djangorave.tests.factories import DRPaymentTypeModelFactory, UserFactory
+from djangorave.models import DRPlanModel
+from djangorave.tests.factories import DRPlanModelFactory, UserFactory
 
 
 class Command(BaseCommand):
@@ -21,14 +21,14 @@ class Command(BaseCommand):
         get_user_model().objects.all().delete()
         UserFactory(username="testuser", is_staff=True, is_superuser=True)
 
-        DRPaymentTypeModel.objects.all().delete()
-        DRPaymentTypeModelFactory(
+        DRPlanModel.objects.all().delete()
+        DRPlanModelFactory(
             description="Once off Purchase",
             custom_title="Purchase this item",
             currency="USD",
             pay_button_text="Buy Now",
         )
-        DRPaymentTypeModelFactory(
+        DRPlanModelFactory(
             description="Subscription Plan",
             custom_title="Sign Up to this plan",
             currency="USD",

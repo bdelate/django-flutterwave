@@ -8,11 +8,11 @@ from factory import fuzzy, DjangoModelFactory
 import factory
 
 # project imports
-from djangorave.models import DRPaymentTypeModel, DRTransactionModel
+from djangorave.models import DRPlanModel, DRTransactionModel
 
 
-class DRPaymentTypeModelFactory(DjangoModelFactory):
-    """Factory for the DRPaymentTypeModel"""
+class DRPlanModelFactory(DjangoModelFactory):
+    """Factory for the DRPlanModel"""
 
     description = factory.Faker("word")
     amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
@@ -20,7 +20,7 @@ class DRPaymentTypeModelFactory(DjangoModelFactory):
     custom_title = factory.Faker("word")
 
     class Meta:
-        model = DRPaymentTypeModel
+        model = DRPlanModel
 
 
 class UserFactory(DjangoModelFactory):
@@ -42,14 +42,24 @@ class UserFactory(DjangoModelFactory):
 class DRTransactionModelFactory(DjangoModelFactory):
     """Factory for the DRTransactionModel"""
 
-    payment_type = factory.SubFactory(DRPaymentTypeModelFactory)
+    plan = factory.SubFactory(DRPlanModelFactory)
     user = factory.SubFactory(UserFactory)
-    reference = factory.Faker("word")
-    flutterwave_reference = factory.Faker("word")
-    order_reference = factory.Faker("word")
+    tx_ref = factory.Faker("word")
+    flw_ref = factory.Faker("word")
+    device_fingerprint = factory.Faker("word")
     amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
+    currency = fuzzy.FuzzyChoice(choices=["USD", "ZAR", "EUR"])
     charged_amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
+    app_fee = fuzzy.FuzzyDecimal(low=1, high=5, precision=2)
+    merchant_fee = fuzzy.FuzzyDecimal(low=1, high=5, precision=2)
+    processor_response = factory.Faker("word")
+    auth_model = factory.Faker("word")
+    ip = factory.Faker("word")
+    narration = factory.Faker("word")
     status = fuzzy.FuzzyChoice(choices=["successful", "failed"])
+    payment_type = fuzzy.FuzzyChoice(choices=["card", "ussd"])
+    created_at = factory.Faker("word")
+    account_id = fuzzy.FuzzyInteger(low=1, high=100)
 
     class Meta:
         model = DRTransactionModel

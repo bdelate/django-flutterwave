@@ -18,15 +18,11 @@ if RAVE_SANDBOX:
     PUBLIC_KEY = getattr(settings, "RAVE_SANDBOX_PUBLIC_KEY", "not set")
     SECRET_KEY = getattr(settings, "RAVE_SANDBOX_SECRET_KEY", "not set")
     RAVE_INLINE_JS = getattr(
-        settings,
-        "RAVE_SANDBOX_INLINE_JS",
-        "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js",
+        settings, "RAVE_SANDBOX_INLINE_JS", "https://checkout.flutterwave.com/v3.js"
     )
 else:
     PUBLIC_KEY = getattr(settings, "RAVE_PRODUCTION_PUBLIC_KEY", "not set")
     SECRET_KEY = getattr(settings, "RAVE_PRODUCTION_SECRET_KEY", "not set")
     RAVE_INLINE_JS = getattr(
-        settings,
-        "RAVE_PRODUCTION_INLINE_JS",
-        "https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js",
+        settings, "RAVE_PRODUCTION_INLINE_JS", "https://checkout.flutterwave.com/v3.js"
     )

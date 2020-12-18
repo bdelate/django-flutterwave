@@ -12,6 +12,6 @@ from djangorave.views import TransactionCreateView, TransactionDetailView
 app_name = "djangorave"
 
 urlpatterns = [
-    path("transaction/", TransactionCreateView.as_view(), name="transaction"),
-    path("<str:reference>/", TransactionDetailView.as_view(), name="reference"),
+    path("transaction/", TransactionCreateView.as_view(), name="transaction_create"),
+    path("<str:tx_ref>/", TransactionDetailView.as_view(), name="transaction_detail"),
 ]

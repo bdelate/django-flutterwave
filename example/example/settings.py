@@ -115,6 +115,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = "static/"
 
 ################ Jupyter notebook ################
 INSTALLED_APPS.append("django_extensions")
@@ -135,4 +136,3 @@ RAVE_PRODUCTION_SECRET_KEY = os.environ["RAVE_PRODUCTION_SECRET_KEY"]
 RAVE_SANDBOX_PUBLIC_KEY = os.environ["RAVE_SANDBOX_PUBLIC_KEY"]
 RAVE_SANDBOX_SECRET_KEY = os.environ["RAVE_SANDBOX_SECRET_KEY"]
 RAVE_SANDBOX = True
-STATIC_ROOT = "static/"
