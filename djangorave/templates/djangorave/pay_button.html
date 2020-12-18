@@ -35,7 +35,7 @@
 
 {% if user.is_authenticated %}
 <button
-    class="rave-pay-btn {% if plan.flw_plan_id %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
+    class="{{ plan.pay_button_css_classes }}"
     type="button"
     onClick="makePayment(paymentParams['{{ plan.name }}'])">
     {{ plan.pay_button_text }}

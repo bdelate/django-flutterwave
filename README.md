@@ -107,11 +107,8 @@ tag as above.
 
 # Button Styling
 
-The following css classes are available for styling your payment buttons:
-
-- `rave-pay-btn` will apply to all buttons.
-- `rave-subscription-btn` will apply to recurring payment types (ie: those with a `flw_plan_id`).
-- `rave-onceoff-btn` will apply to once off payment types (ie: those without a `flw_plan_id`).
+Use the `pay_button_css_classes` field on the `DRPlanModel` model to add css classes to
+the button which will be rendered in your template.
 
 # Transaction Detail Page
 

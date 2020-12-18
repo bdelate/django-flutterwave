@@ -41,6 +41,12 @@ class DRPlanModel(models.Model):
         default="Sign Up",
         help_text="Text used for button when displayed in a template.",
     )
+    pay_button_css_classes = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text="css classes to be applied to pay button in template.",
+    )
     created_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
