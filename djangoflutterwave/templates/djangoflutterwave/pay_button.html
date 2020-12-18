@@ -1,13 +1,11 @@
-{% load djangorave_tags %}
+{% load djangoflutterwave_tags %}
 <!--
-    User email is required by Rave, therefore user must be signed in before
+    User email is required by Flutterwave, therefore user must be signed in before
     button will be displayed.
 -->
 <script>
     function createPaymentParams() {
-        //
-        // Create payment params which will be sent to Rave upon payment
-        //
+        // Create payment params which will be sent to Flutterwave upon payment
         {% autoescape off %}
         let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user_pk=user.pk plan_pk=plan.pk %}{% endif %}');
         {% endautoescape %}
@@ -17,7 +15,7 @@
             amount: '{{ plan.amount }}',
             currency: '{{ plan.currency }}',
             redirect_url: pay_button_params.redirect_url,
-            flw_plan_id: '{{ plan.flw_plan_id }}',
+            payment_plan: '{{ plan.flw_plan_id }}',
             customer: {
                 email: '{{ user.email }}',
                 name: '{{ user.first_name }} {{ user.last_name }}',

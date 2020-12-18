@@ -4,7 +4,7 @@
 from django.contrib import admin
 
 # project imports
-from djangorave.models import DRPlanModel, DRTransactionModel
+from djangoflutterwave.models import FlwPlanModel, FlwTransactionModel
 
 # project imports
 
@@ -21,5 +21,5 @@ class TransactionAdmin(admin.ModelAdmin):
     readonly_fields = ("created_datetime",)
 
 
-admin.site.register(DRPlanModel, PlanAdmin)
-admin.site.register(DRTransactionModel, TransactionAdmin)
+admin.site.register(FlwPlanModel, PlanAdmin)
+admin.site.register(FlwTransactionModel, TransactionAdmin)

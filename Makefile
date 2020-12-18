@@ -20,10 +20,10 @@ shell:
 	@docker-compose run django poetry run ./manage.py shell
 
 test:
-	@docker-compose run django poetry run ./manage.py test djangorave
+	@docker-compose run django poetry run ./manage.py test djangoflutterwave
 
 test_cov:
-	@docker-compose run django poetry run coverage run --source=djangorave ./manage.py test djangorave
+	@docker-compose run django poetry run coverage run --source=djangoflutterwave ./manage.py test djangoflutterwave
 	@docker-compose run django poetry run coverage html
 	@open example/htmlcov/index.html
 

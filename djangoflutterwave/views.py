@@ -11,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # project imports
-from djangorave.models import DRTransactionModel, DRPlanModel
-from djangorave.serializers import DRTransactionSerializer
+from djangoflutterwave.models import FlwTransactionModel, FlwPlanModel
+from djangoflutterwave.serializers import DRTransactionSerializer
 
 
 UserModel = get_user_model()
@@ -21,16 +21,16 @@ UserModel = get_user_model()
 class TransactionDetailView(LoginRequiredMixin, TemplateView):
     """Returns a transaction template"""
 
-    template_name = "djangorave/transaction.html"
+    template_name = "djangoflutterwave/transaction.html"
 
     def get_context_data(self, **kwargs):
         """Add transaction to context data"""
         kwargs = super().get_context_data(**kwargs)
         try:
-            kwargs["transaction"] = DRTransactionModel.objects.get(
+            kwargs["transaction"] = FlwTransactionModel.objects.get(
                 user=self.request.user, tx_ref=self.kwargs["tx_ref"]
             )
-        except DRTransactionModel.DoesNotExist:
+        except FlwTransactionModel.DoesNotExist:
             kwargs["transaction"] = None
         return kwargs
 
@@ -38,7 +38,7 @@ class TransactionDetailView(LoginRequiredMixin, TemplateView):
 class TransactionCreateView(CreateAPIView):
     """Provides an api end point to create transactions"""
 
-    queryset = DRTransactionModel.objects.all()
+    queryset = FlwTransactionModel.objects.all()
     serializer_class = DRTransactionSerializer
     authentication_classes: list = []
 
@@ -60,5 +60,5 @@ class TransactionCreateView(CreateAPIView):
         user_id = reference.split("__")[2]
         serializer.save(
             user=UserModel.objects.get(id=user_id),
-            plan=DRPlanModel.objects.get(id=plan_id),
+            plan=FlwPlanModel.objects.get(id=plan_id),
         )

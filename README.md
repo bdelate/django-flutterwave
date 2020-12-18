@@ -1,13 +1,13 @@
-# Django Rave
+# Django Flutterwave
 
 ## Project Description
 
-This project provides Django integration for [Flutterwave](https://flutterwave.com/) Rave Card payments and subscriptions.
+This project provides Django integration for [Flutterwave](https://flutterwave.com/) payments and subscriptions.
 
 Current functionality:
 - Allow users to make payments (once off and subscription)
-- Create payment buttons which launch Rave payment modals
-- Maintain a transaction history linked to users
+- Create payment buttons which launch inline payment modals
+- Maintain a payment transaction history linked to users
 
 # Requirements
 
@@ -17,12 +17,12 @@ Current functionality:
 # Installation
 
 ```bash
-pip install djangorave
+pip install djangoflutterwave
 ```
 
 # Setup
 
-Add `"djangorave"` to your `INSTALLED_APPS`
+Add `"djangoflutterwave"` to your `INSTALLED_APPS`
 
 Run Django migrations:
 
@@ -33,46 +33,46 @@ manage.py migrate
 Add the following to your `settings.py`:
 
 ```python
-RAVE_PRODUCTION_PUBLIC_KEY = "your key"
-RAVE_PRODUCTION_SECRET_KEY = "your key"
+FLW_PRODUCTION_PUBLIC_KEY = "your key"
+FLW_PRODUCTION_SECRET_KEY = "your key"
 FLW_SANDBOX_PUBLIC_KEY = "your key"
 FLW_SANDBOX_SECRET_KEY = "your key"
 FLW_SANDBOX = True
 ```
 
-The above config will ensure `djangorave` uses your Rave sandbox. Once you are
-ready to go live, set `FLW_SANDBOX = False`
+The above config will ensure `djangoflutterwave` uses your sandbox. Once you're ready to
+go live, set `FLW_SANDBOX = False`
 
-Add `djangorave` to your `urls.py`:
+Add `djangoflutterwave` to your `urls.py`:
 
 ```python
-path("djangorave/", include("djangorave.urls", namespace="djangorave"))
+path("djangoflutterwave/", include("djangoflutterwave.urls", namespace="djangoflutterwave"))
 ```
 
-Add the following url as a webhook in your Rave dashboard. This will be used by
-Rave to `POST` payment transactions to your site:
+Add the following url as a webhook in your Flutterwave dashboard. This will be used by
+Flutterwave to `POST` payment transactions to your site:
 
 ```bash
-http://yoursite.com/djangorave/transaction/
+http://yoursite.com/djangoflutterwave/transaction/
 ```
 
-`Note:` while in development, a tool like ngrok (or similar) may prove useful.
+`Note:` while in development, a tool like ngrok (or similar) may prove useful to ensure
+your localhost is accessible to Flutterwave for the above webhook calls.
 
 # Usage
 
-`djangorave` provides two models, namely:
+`djangoflutterwave` provides two models, namely:
 
-- The `DRPlanModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `flw_plan_id` field
-corresponds to the Rave `Plan ID`.
-- The `DRTransactionModel` creates transactions when Rave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `DRPlanModel` and `user`.
+- The `FlwPlanModel` allows you to create `once off` or `subscription` plans. When creating a `subscription` plan, you will need to create the plan in Flutterwave first and then enter the corresonding information as a `FlwPlanModel` instance (ie: `flw_plan_id` field corresponds to the Flutterwave `Plan ID`).
+- The `FlwTransactionModel` creates transactions when Flutterwave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `FlwPlanModel` and `user`.
 
 A payment button can be created as follows:
 
-1. Create a new `PaymentType` using the django admin.
-2. In the view where you wish the button to appear, add the above created `PaymentType` to your context, eg:
+1. Create a new plan (ie: `FlwPlanModel`) using the django admin.
+2. In the view where you wish the button to appear, add the above created `FlwPlanModel` instance to your context, eg:
 
 ```python
-from djangorave.models import DRPlanModel
+from djangoflutterwave.models import FlwPlanModel
 
 class SignUpView(TemplateView):
     """Sign Up view"""
@@ -82,16 +82,16 @@ class SignUpView(TemplateView):
     def get_context_data(self, **kwargs):
         """Add payment type to context data"""
         kwargs = super().get_context_data(**kwargs)
-        kwargs["pro_plan"] = DRPlanModel.objects.filter(
+        kwargs["pro_plan"] = FlwPlanModel.objects.filter(
             name="Pro Plan"
         ).first()
         return kwargs
 ```
 
-3. In your template, add your button wherever you wish for it to appear as follows:
+3. In your template, add the button wherever you wish for it to appear as follows:
 
 ```python
-{% include 'djangorave/pay_button.html' with payment_model=pro_plan %}
+{% include 'djangoflutterwave/pay_button.html' with plan=pro_plan %}
 ```
 
 `Note:` You can add multiple buttons to a single template by simply adding multiple
@@ -102,26 +102,26 @@ tag as above.
 
 ```html
 <script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>
-<script src="{% static 'djangorave/js/payment.js' %}"></script>
+<script src="{% static 'djangoflutterwave/js/payment.js' %}"></script>
 ```
 
 # Button Styling
 
-Use the `pay_button_css_classes` field on the `DRPlanModel` model to add css classes to
-the button which will be rendered in your template.
+Use the `pay_button_css_classes` field on the `FlwPlanModel` model to add css classes to
+buttons which will be rendered in your template.
 
 # Transaction Detail Page
 
 Following a user payment, they will be redirected to the transaction detail page
-located at `/djangorave/<str:reference>/`
+located at `/djangoflutterwave/<str:tx_ref>/`.
 
 A default transaction detail template is already available, however if you want
 to override it, you may do so by creating a new template in your root
-templates directory, ie: `/templates/djangorave/transaction.html`
+templates directory, ie: `/templates/djangoflutterwave/transaction.html`
 
 You will have access to `{{ transaction }}` within that template.
 
-# Development
+# Development and contribution
 
 If you wish to contribute to the project, there is an example app that demonstrates
 general usage.
@@ -129,27 +129,31 @@ general usage.
 ### Running the example:
 
 ```bash
-git clone https://github.com/bdelate/django-rave.git
-cd django-rave
+git clone https://github.com/bdelate/django-flutterwave.git
+cd django-flutterwave
+```
+
+Create file `example/env/dev.env` and populate it with the following:
+
+```bash
+FLW_SANDBOX_PUBLIC_KEY=your_sandbox_public_key
+FLW_SANDBOX_SECRET_KEY=your_sandbox_secret_key
+FLW_PRODUCTION_PUBLIC_KEY=test
+FLW_PRODUCTION_SECRET_KEY=test
+```
+
+Run the following commands:
+
+```bash
 make build
 make migrate
 make import
 make dup
 ```
 
-There is a section at the bottom of `django-rave/example/example/settings.py`. Ensure the values are set accordingly:
-
-```python
-RAVE_PRODUCTION_PUBLIC_KEY = "your key"
-RAVE_PRODUCTION_SECRET_KEY = "your key"
-FLW_SANDBOX_PUBLIC_KEY = "your key"
-FLW_SANDBOX_SECRET_KEY = "your key"
-FLW_SANDBOX = True
-```
-
-Flutterwave Rave requires payments to be associated with users who have an email address.
-Therefore, create and login with a new django user or use the existing user already
-generated following the above import command:
+Flutterwave requires payments to be associated with users who have an email address.
+Therefore, create and login with a new django user or use the existing user which will
+have been created by the above import command:
 
 ```
 username: admin

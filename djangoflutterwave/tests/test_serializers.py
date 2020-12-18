@@ -7,8 +7,8 @@ from django.test import TestCase
 from rest_framework.exceptions import ValidationError
 
 # project imports
-from djangorave.serializers import DRTransactionSerializer
-from djangorave.tests.factories import DRPlanModelFactory, UserFactory
+from djangoflutterwave.serializers import DRTransactionSerializer
+from djangoflutterwave.tests.factories import FlwPlanModelFactory, UserFactory
 
 
 class TestDRTransactionSerializer(TestCase):
@@ -17,7 +17,7 @@ class TestDRTransactionSerializer(TestCase):
     def test_validate_reference(self):
         """Ensure the serializer raises an exception for an invalid
         plan_id or user_id """
-        plan = DRPlanModelFactory()
+        plan = FlwPlanModelFactory()
         user = UserFactory()
 
         expected_response = f"{plan.id}__test__{user.id}"

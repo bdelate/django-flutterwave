@@ -6,10 +6,10 @@ from django.urls import path, include
 # 3rd party imports
 
 # project imports
-from djangorave.views import TransactionCreateView, TransactionDetailView
+from djangoflutterwave.views import TransactionCreateView, TransactionDetailView
 
 
-app_name = "djangorave"
+app_name = "djangoflutterwave"
 
 urlpatterns = [
     path("transaction/", TransactionCreateView.as_view(), name="transaction_create"),

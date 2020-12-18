@@ -8,11 +8,11 @@ from factory import fuzzy, DjangoModelFactory
 import factory
 
 # project imports
-from djangorave.models import DRPlanModel, DRTransactionModel
+from djangoflutterwave.models import FlwPlanModel, FlwTransactionModel
 
 
-class DRPlanModelFactory(DjangoModelFactory):
-    """Factory for the DRPlanModel"""
+class FlwPlanModelFactory(DjangoModelFactory):
+    """Factory for the FlwPlanModel"""
 
     name = factory.Faker("word")
     amount = fuzzy.FuzzyDecimal(low=20, high=100, precision=2)
@@ -20,7 +20,7 @@ class DRPlanModelFactory(DjangoModelFactory):
     modal_title = factory.Faker("word")
 
     class Meta:
-        model = DRPlanModel
+        model = FlwPlanModel
 
 
 class UserFactory(DjangoModelFactory):
@@ -39,10 +39,10 @@ class UserFactory(DjangoModelFactory):
         model = get_user_model()
 
 
-class DRTransactionModelFactory(DjangoModelFactory):
-    """Factory for the DRTransactionModel"""
+class FlwTransactionModelFactory(DjangoModelFactory):
+    """Factory for the FlwTransactionModel"""
 
-    plan = factory.SubFactory(DRPlanModelFactory)
+    plan = factory.SubFactory(FlwPlanModelFactory)
     user = factory.SubFactory(UserFactory)
     tx_ref = factory.Faker("word")
     flw_ref = factory.Faker("word")
@@ -62,4 +62,4 @@ class DRTransactionModelFactory(DjangoModelFactory):
     account_id = fuzzy.FuzzyInteger(low=1, high=100)
 
     class Meta:
-        model = DRTransactionModel
+        model = FlwTransactionModel

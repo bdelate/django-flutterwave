@@ -1,5 +1,5 @@
 """
-djangorave default settings are defined here and determined in combination
+djangoflutterwave default settings are defined here and determined in combination
 with what has been defined in django.conf.settings.
 """
 

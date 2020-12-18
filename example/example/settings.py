@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # project apps
     "paymanager",
-    "djangorave",
+    "djangoflutterwave",
 ]
 
 MIDDLEWARE = [
@@ -130,7 +130,7 @@ NOTEBOOK_ARGUMENTS = [
     "jupyter_notebooks",
 ]
 
-################ djangorave settings ################
+################ djangoflutterwave settings ################
 FLW_PRODUCTION_PUBLIC_KEY = os.environ["FLW_PRODUCTION_PUBLIC_KEY"]
 FLW_PRODUCTION_SECRET_KEY = os.environ["FLW_PRODUCTION_SECRET_KEY"]
 FLW_SANDBOX_PUBLIC_KEY = os.environ["FLW_SANDBOX_PUBLIC_KEY"]

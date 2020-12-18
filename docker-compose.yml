@@ -4,7 +4,7 @@ services:
 
   django:
     build: .
-    image: django-rave
+    image: django-flutterwave
     command: poetry run ./manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code

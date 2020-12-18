@@ -8,13 +8,13 @@ from django.test import TestCase, RequestFactory
 from rest_framework.test import APITestCase, APIRequestFactory
 
 # project imports
-from djangorave.views import TransactionDetailView, TransactionCreateView
-from djangorave.models import DRTransactionModel
-from djangorave.serializers import DRTransactionSerializer
-from djangorave.tests.factories import (
-    DRPlanModelFactory,
+from djangoflutterwave.views import TransactionDetailView, TransactionCreateView
+from djangoflutterwave.models import FlwTransactionModel
+from djangoflutterwave.serializers import DRTransactionSerializer
+from djangoflutterwave.tests.factories import (
+    FlwPlanModelFactory,
     UserFactory,
-    DRTransactionModelFactory,
+    FlwTransactionModelFactory,
 )
 
 
@@ -26,7 +26,7 @@ class TestTransactionDetailView(TestCase):
         reference is provided"""
         factory = RequestFactory()
         user = UserFactory()
-        transaction = DRTransactionModelFactory(user=user)
+        transaction = FlwTransactionModelFactory(user=user)
         request = factory.get("test")
         request.user = user
         view = TransactionDetailView()
@@ -48,7 +48,7 @@ class TestTransactionCreateView(APITestCase):
         """Ensure the user and plan are gotten from the reference and saved to the
         Transaction instance"""
         user = UserFactory()
-        plan = DRPlanModelFactory()
+        plan = FlwPlanModelFactory()
         factory = APIRequestFactory()
         data = {
             "tx_ref": f"{plan.id}__test__{user.id}",
@@ -76,7 +76,7 @@ class TestTransactionCreateView(APITestCase):
         serializer.is_valid()
         view.perform_create(serializer=serializer)
 
-        self.assertEqual(DRTransactionModel.objects.count(), 1)
-        transaction = DRTransactionModel.objects.first()
+        self.assertEqual(FlwTransactionModel.objects.count(), 1)
+        transaction = FlwTransactionModel.objects.first()
         self.assertEqual(transaction.user.id, user.id)
         self.assertEqual(transaction.plan.id, plan.id)
