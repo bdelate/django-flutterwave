@@ -7,34 +7,47 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 # project imports
-from djangorave.models import DRTransactionModel, DRPaymentTypeModel
+from djangorave.models import DRTransactionModel, DRPlanModel
 
 
-class TransactionSerializer(serializers.ModelSerializer):
-    """Serializer for the Transaction Model"""
+UserModel = get_user_model()
 
-    txRef = serializers.CharField(source="reference")
-    flwRef = serializers.CharField(source="flutterwave_reference")
-    orderRef = serializers.CharField(source="order_reference")
+
+class DRTransactionSerializer(serializers.ModelSerializer):
+    """Serializer for the DRTransactionModel Model"""
 
     class Meta:
         model = DRTransactionModel
-        fields = ("txRef", "flwRef", "orderRef", "amount", "charged_amount", "status")
+        fields = (
+            "tx_ref",
+            "flw_ref",
+            "device_fingerprint",
+            "amount",
+            "currency",
+            "charged_amount",
+            "app_fee",
+            "merchant_fee",
+            "processor_response",
+            "auth_model",
+            "ip",
+            "narration",
+            "status",
+            "payment_type",
+            "created_at",
+            "account_id",
+        )
 
     def validate_reference(self, value: str) -> str:
-        """Ensure the received reference contains a valid payment_type_id and
+        """Ensure the received reference contains a valid plan_id and
         user_id"""
-        payment_type_id = value.split("__")[0]
-        user_id = value.split("__")[2]
-
         try:
-            DRPaymentTypeModel.objects.get(id=payment_type_id)
-        except DRPaymentTypeModel.DoesNotExist:
+            plan_id = value.split("__")[0]
+            DRPlanModel.objects.get(id=plan_id)
+        except DRPlanModel.DoesNotExist:
             raise serializers.ValidationError("Payment type does not exist")
 
-        UserModel = get_user_model()
-        payment_type_id = value.split("__")[0]
         try:
+            user_id = value.split("__")[2]
             UserModel.objects.get(id=user_id)
         except UserModel.DoesNotExist:
             raise serializers.ValidationError("User does not exist")

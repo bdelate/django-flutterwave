@@ -35,13 +35,13 @@ Add the following to your `settings.py`:
 ```python
 RAVE_PRODUCTION_PUBLIC_KEY = "your key"
 RAVE_PRODUCTION_SECRET_KEY = "your key"
-RAVE_SANDBOX_PUBLIC_KEY = "your key"
-RAVE_SANDBOX_SECRET_KEY = "your key"
-RAVE_SANDBOX = True
+FLW_SANDBOX_PUBLIC_KEY = "your key"
+FLW_SANDBOX_SECRET_KEY = "your key"
+FLW_SANDBOX = True
 ```
 
 The above config will ensure `djangorave` uses your Rave sandbox. Once you are
-ready to go live, set `RAVE_SANDBOX = False`
+ready to go live, set `FLW_SANDBOX = False`
 
 Add `djangorave` to your `urls.py`:
 
@@ -62,9 +62,9 @@ http://yoursite.com/djangorave/transaction/
 
 `djangorave` provides two models, namely:
 
-- The `DRPaymentTypeModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `payment_plan` field
+- The `DRPlanModel` allows you to create `once off` or `recurring` payment types. When creating a `recurring` payment type, ensure the `flw_plan_id` field
 corresponds to the Rave `Plan ID`.
-- The `DRTransactionModel` creates transactions when Rave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `DRPaymentTypeModel` and `user`.
+- The `DRTransactionModel` creates transactions when Rave POSTS to the above mentioned webhook url. This provides a history of all transactions (once off or recurring), linked to the relevant `DRPlanModel` and `user`.
 
 A payment button can be created as follows:
 
@@ -72,7 +72,7 @@ A payment button can be created as follows:
 2. In the view where you wish the button to appear, add the above created `PaymentType` to your context, eg:
 
 ```python
-from djangorave.models import DRPaymentTypeModel
+from djangorave.models import DRPlanModel
 
 class SignUpView(TemplateView):
     """Sign Up view"""
@@ -82,8 +82,8 @@ class SignUpView(TemplateView):
     def get_context_data(self, **kwargs):
         """Add payment type to context data"""
         kwargs = super().get_context_data(**kwargs)
-        kwargs["pro_plan"] = DRPaymentTypeModel.objects.filter(
-            description="Pro Plan"
+        kwargs["pro_plan"] = DRPlanModel.objects.filter(
+            name="Pro Plan"
         ).first()
         return kwargs
 ```
@@ -98,19 +98,17 @@ class SignUpView(TemplateView):
 plans to your context data and then including each of them with their own `include`
 tag as above.
 
-4. Add the following script to your django base template (or anywhere in your template heirarchy that ensures it is loaded before your payment buttons):
+4. Add the following to your django base template (or anywhere in your template heirarchy that ensures it is loaded before your payment buttons):
 
 ```html
+<script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>
 <script src="{% static 'djangorave/js/payment.js' %}"></script>
 ```
 
 # Button Styling
 
-The following css classes are available for styling your payment buttons:
-
-- `rave-pay-btn` will apply to all buttons.
-- `rave-subscription-btn` will apply to recurring payment types (ie: those with a `payment_plan`).
-- `rave-onceoff-btn` will apply to once off payment types (ie: those without a `payment_plan`).
+Use the `pay_button_css_classes` field on the `DRPlanModel` model to add css classes to
+the button which will be rendered in your template.
 
 # Transaction Detail Page
 
@@ -144,9 +142,9 @@ There is a section at the bottom of `django-rave/example/example/settings.py`. E
 ```python
 RAVE_PRODUCTION_PUBLIC_KEY = "your key"
 RAVE_PRODUCTION_SECRET_KEY = "your key"
-RAVE_SANDBOX_PUBLIC_KEY = "your key"
-RAVE_SANDBOX_SECRET_KEY = "your key"
-RAVE_SANDBOX = True
+FLW_SANDBOX_PUBLIC_KEY = "your key"
+FLW_SANDBOX_SECRET_KEY = "your key"
+FLW_SANDBOX = True
 ```
 
 Flutterwave Rave requires payments to be associated with users who have an email address.
@@ -154,8 +152,8 @@ Therefore, create and login with a new django user or use the existing user alre
 generated following the above import command:
 
 ```
-username: testuser
-password: secret
+username: admin
+password: adminadmin
 ```
 
 Navigate to http://localhost:8000/

@@ -7,40 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign Up | Example</title>
+    <script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>
     <script src="{% static 'djangorave/js/payment.js' %}"></script>
 </head>
 
-<style>
-    .rave-pay-btn {
-        padding: 1rem;
-        border-radius: 0.3rem;
-        color: #fff;
-    }
-
-    .rave-pay-btn:hover {
-        cursor: pointer;
-    }
-
-    .rave-subscription-btn {
-        background-color: #43ad55;
-    }
-
-    .rave-subscription-btn:hover {
-        background-color: #61c772;
-    }
-
-    .rave-onceoff-btn {
-        background-color: #4374ad;
-    }
-
-    .rave-onceoff-btn:hover {
-        background-color: #5d8cc2;
-    }
-</style>
-
 <body>
-    {% include 'djangorave/pay_button.html' with payment_type=pro_plan %}
-    {% include 'djangorave/pay_button.html' with payment_type=buy_now %}
+    {% include 'djangorave/pay_button.html' with plan=pro_plan %}
+    {% include 'djangorave/pay_button.html' with plan=buy_now %}
 </body>
 
 </html>

@@ -7,10 +7,15 @@ from django.views.generic import TemplateView
 
 # 3rd party imports
 from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from rest_framework import status
 
 # project imports
-from djangorave.models import DRTransactionModel, DRPaymentTypeModel
-from djangorave.serializers import TransactionSerializer
+from djangorave.models import DRTransactionModel, DRPlanModel
+from djangorave.serializers import DRTransactionSerializer
+
+
+UserModel = get_user_model()
 
 
 class TransactionDetailView(LoginRequiredMixin, TemplateView):
@@ -19,11 +24,11 @@ class TransactionDetailView(LoginRequiredMixin, TemplateView):
     template_name = "djangorave/transaction.html"
 
     def get_context_data(self, **kwargs):
-        """Add plan to context data"""
+        """Add transaction to context data"""
         kwargs = super().get_context_data(**kwargs)
         try:
             kwargs["transaction"] = DRTransactionModel.objects.get(
-                user=self.request.user, reference=self.kwargs["reference"]
+                user=self.request.user, tx_ref=self.kwargs["tx_ref"]
             )
         except DRTransactionModel.DoesNotExist:
             kwargs["transaction"] = None
@@ -34,16 +39,26 @@ class TransactionCreateView(CreateAPIView):
     """Provides an api end point to create transactions"""
 
     queryset = DRTransactionModel.objects.all()
-    serializer_class = TransactionSerializer
+    serializer_class = DRTransactionSerializer
     authentication_classes: list = []
 
-    def perform_create(self, serializer: TransactionSerializer) -> None:
-        """Add payment_type and user to Transaction instance, determined
-        from the received reference"""
-        reference = serializer.validated_data["reference"]
-        payment_type_id = reference.split("__")[0]
+    def create(self, request, *args, **kwargs):
+        """Override create to specify request.data['data'] for serializer data"""
+        serializer = self.get_serializer(data=request.data.get("data", None))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def perform_create(self, serializer: DRTransactionSerializer) -> None:
+        """Add plan and user to Transaction instance, determined from the received
+        reference"""
+        reference = serializer.validated_data["tx_ref"]
+        plan_id = reference.split("__")[0]
         user_id = reference.split("__")[2]
         serializer.save(
-            user=get_user_model().objects.get(id=user_id),
-            payment_type=DRPaymentTypeModel.objects.get(id=payment_type_id),
+            user=UserModel.objects.get(id=user_id),
+            plan=DRPlanModel.objects.get(id=plan_id),
         )

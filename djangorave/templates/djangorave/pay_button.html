@@ -1,4 +1,3 @@
-{% load static %}
 {% load djangorave_tags %}
 <!--
     User email is required by Rave, therefore user must be signed in before
@@ -10,36 +9,36 @@
         // Create payment params which will be sent to Rave upon payment
         //
         {% autoescape off %}
-        let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user_pk=user.pk payment_type_pk=payment_type.pk %}{% endif %}');
+        let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user_pk=user.pk plan_pk=plan.pk %}{% endif %}');
         {% endautoescape %}
-        paymentParams['{{ payment_type.description }}'] = {
-            PBFPubKey: pay_button_params.pub_key,
-            amount: '{{ payment_type.amount }}',
-            currency: '{{ payment_type.currency }}',
-            custom_logo: '{{ payment_type.custom_logo }}',
-            custom_title: '{{ payment_type.custom_title }}',
-            customer_email: '{{ user.email }}',
-            customer_firstname: '{{ user.first_name }}',
-            customer_lastname: '{{ user.last_name }}',
-            pay_button_text: '{{ payment_type.pay_button_text }}',
-            payment_options: '{{ payment_type.payment_options }}',
-            payment_plan: '{{ payment_type.payment_plan }}',
-            txref: pay_button_params.txref,
-            integrity_hash: pay_button_params.integrity_hash,
-            redirect_url: pay_button_params.redirect_url
+        paymentParams['{{ plan.name }}'] = {
+            public_key: pay_button_params.public_key,
+            tx_ref: pay_button_params.tx_ref,
+            amount: '{{ plan.amount }}',
+            currency: '{{ plan.currency }}',
+            redirect_url: pay_button_params.redirect_url,
+            flw_plan_id: '{{ plan.flw_plan_id }}',
+            customer: {
+                email: '{{ user.email }}',
+                name: '{{ user.first_name }} {{ user.last_name }}',
+            },
+            customizations: {
+                title: '{{ plan.modal_title }}',
+                logo: '{{ plan.modal_logo_url }}',
+            },
         }
     }
     if ('{{ user.is_authenticated }}' === 'True') {
         createPaymentParams();
     }
 </script>
-<script type="text/javascript" src="{% rave_inline_js %}"></script>
+
 {% if user.is_authenticated %}
 <button
-    class="rave-pay-btn {% if payment_type.payment_plan %}rave-subscription-btn{% else %}rave-onceoff-btn{% endif %}"
+    class="{{ plan.pay_button_css_classes }}"
     type="button"
-    onClick="payWithRave(paymentParams['{{ payment_type.description }}'])">
-    {{ payment_type.pay_button_text }}
+    onClick="makePayment(paymentParams['{{ plan.name }}'])">
+    {{ plan.pay_button_text }}
 </button>
 {% else %}
 <p>User must be signed in</p>
