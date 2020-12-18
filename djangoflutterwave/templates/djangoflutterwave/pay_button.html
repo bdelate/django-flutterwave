@@ -1,0 +1,43 @@
+{% load djangoflutterwave_tags %}
+<!--
+    User email is required by Flutterwave, therefore user must be signed in before
+    button will be displayed.
+-->
+<script>
+    function createPaymentParams() {
+        // Create payment params which will be sent to Flutterwave upon payment
+        {% autoescape off %}
+        let pay_button_params = JSON.parse('{% if user.is_authenticated %}{% pay_button_params user_pk=user.pk plan_pk=plan.pk %}{% endif %}');
+        {% endautoescape %}
+        paymentParams['{{ plan.name }}'] = {
+            public_key: pay_button_params.public_key,
+            tx_ref: pay_button_params.tx_ref,
+            amount: '{{ plan.amount }}',
+            currency: '{{ plan.currency }}',
+            redirect_url: pay_button_params.redirect_url,
+            payment_plan: '{{ plan.flw_plan_id }}',
+            customer: {
+                email: '{{ user.email }}',
+                name: '{{ user.first_name }} {{ user.last_name }}',
+            },
+            customizations: {
+                title: '{{ plan.modal_title }}',
+                logo: '{{ plan.modal_logo_url }}',
+            },
+        }
+    }
+    if ('{{ user.is_authenticated }}' === 'True') {
+        createPaymentParams();
+    }
+</script>
+
+{% if user.is_authenticated %}
+<button
+    class="{{ plan.pay_button_css_classes }}"
+    type="button"
+    onClick="makePayment(paymentParams['{{ plan.name }}'])">
+    {{ plan.pay_button_text }}
+</button>
+{% else %}
+<p>User must be signed in</p>
+{% endif %}

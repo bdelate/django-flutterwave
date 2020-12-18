@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # project apps
     "paymanager",
-    "djangorave",
+    "djangoflutterwave",
 ]
 
 MIDDLEWARE = [
@@ -115,6 +115,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = "static/"
 
 ################ Jupyter notebook ################
 INSTALLED_APPS.append("django_extensions")
@@ -129,10 +130,9 @@ NOTEBOOK_ARGUMENTS = [
     "jupyter_notebooks",
 ]
 
-################ djangorave settings ################
-RAVE_PRODUCTION_PUBLIC_KEY = os.environ["RAVE_PRODUCTION_PUBLIC_KEY"]
-RAVE_PRODUCTION_SECRET_KEY = os.environ["RAVE_PRODUCTION_SECRET_KEY"]
-RAVE_SANDBOX_PUBLIC_KEY = os.environ["RAVE_SANDBOX_PUBLIC_KEY"]
-RAVE_SANDBOX_SECRET_KEY = os.environ["RAVE_SANDBOX_SECRET_KEY"]
-RAVE_SANDBOX = True
-STATIC_ROOT = "static/"
+################ djangoflutterwave settings ################
+FLW_PRODUCTION_PUBLIC_KEY = os.environ["FLW_PRODUCTION_PUBLIC_KEY"]
+FLW_PRODUCTION_SECRET_KEY = os.environ["FLW_PRODUCTION_SECRET_KEY"]
+FLW_SANDBOX_PUBLIC_KEY = os.environ["FLW_SANDBOX_PUBLIC_KEY"]
+FLW_SANDBOX_SECRET_KEY = os.environ["FLW_SANDBOX_SECRET_KEY"]
+FLW_SANDBOX = True

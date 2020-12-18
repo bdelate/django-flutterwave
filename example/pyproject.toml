@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "djangorave_example"
+name = "djangoflutterwave_example"
 version = "0.1.0"
 description = ""
 authors = ["bdelate <brendon.delate@gmail.com>"]
@@ -7,7 +7,7 @@ authors = ["bdelate <brendon.delate@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">=3.6 <4"
 Django = "^3.1.4"
-djangorave = { path="../", develop = true }
+djangoflutterwave = { path="../", develop = true }
 
 [tool.poetry.dev-dependencies]
 black = {version = "=19.3b0",allow-prereleases = true}
@@ -17,6 +17,7 @@ coverage = "^4.5"
 django-extensions = "^2.2"
 jupyter = "^1.0"
 factory-boy = "^2.12"
+flake8 = "^3.8.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 # 3rd party imports
 
 # project imports
-from djangorave.models import DRPaymentTypeModel
+from djangoflutterwave.models import FlwPlanModel
 
 
 class SignUpView(TemplateView):
@@ -17,11 +17,10 @@ class SignUpView(TemplateView):
     def get_context_data(self, **kwargs):
         """Add plan to context data"""
         context_data = super().get_context_data(**kwargs)
-        context_data["pro_plan"] = DRPaymentTypeModel.objects.filter(
-            payment_plan__isnull=False
+        context_data["pro_plan"] = FlwPlanModel.objects.filter(
+            flw_plan_id__isnull=False
         ).first()
-        context_data["buy_now"] = DRPaymentTypeModel.objects.filter(
-            payment_plan__isnull=True
+        context_data["buy_now"] = FlwPlanModel.objects.filter(
+            flw_plan_id__isnull=True
         ).first()
         return context_data
-

@@ -19,5 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("paymanager.urls", namespace="paymanager")),
-    path("djangorave/", include("djangorave.urls", namespace="djangorave")),
+    path("djangoflutterwave/", include("djangoflutterwave.urls", namespace="djangoflutterwave")),
 ]

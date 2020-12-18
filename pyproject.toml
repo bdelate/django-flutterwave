@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "djangorave"
-version = "0.1.2"
-description = "Django integration for Flutterwave Rave Card payments and subscriptions"
+name = "djangoflutterwave"
+version = "0.2.1"
+description = "Django integration for Flutterwave payments and subscriptions"
 authors = ["Brendon Delate <brendon.delate@gmail.com>"]
 license = "MIT"
-repository = "https://github.com/bdelate/django-rave.git"
-homepage = "https://github.com/bdelate/django-rave.git"
+repository = "https://github.com/bdelate/django-flutterwave.git"
+homepage = "https://github.com/bdelate/django-flutterwave.git"
 readme = "README.md"
 
 keywords=[
@@ -29,7 +29,7 @@ classifiers=[
 ]
 
 packages = [
-    { include = "djangorave" },
+    { include = "djangoflutterwave" },
 ]
 
 [tool.poetry.dependencies]
@@ -46,6 +46,7 @@ coverage = "^4.5"
 django-extensions = "^2.2"
 jupyter = "^1.0"
 factory-boy = "^2.12"
+flake8 = "^3.8.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
