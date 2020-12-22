@@ -10,13 +10,13 @@ from djangoflutterwave.models import FlwPlanModel, FlwTransactionModel
 
 
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ("name", "amount", "flw_plan_id")
+    list_display = ("name", "amount", "flw_plan_id", "interval")
     search_fields = ("name",)
     readonly_fields = ("created_datetime",)
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("user", "plan", "tx_ref", "amount", "created_datetime")
+    list_display = ("user", "plan", "status", "tx_ref", "amount", "created_at")
     search_fields = ("user__username", "plan__name", "tx_ref")
     readonly_fields = ("created_datetime",)
 

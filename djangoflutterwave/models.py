@@ -39,7 +39,11 @@ class FlwPlanModel(models.Model):
         help_text="Flutterwave plan id. Only required if this is a subscription plan.",
     )
     interval = models.CharField(
-        max_length=11, choices=INTERVAL_CHOICES, help_text="Payment frequency"
+        max_length=11,
+        blank=True,
+        null=True,
+        choices=INTERVAL_CHOICES,
+        help_text="Payment frequency. Only required if this is a subscription plan.",
     )
     currency = models.CharField(max_length=3, default="USD")
     modal_logo_url = models.URLField(
