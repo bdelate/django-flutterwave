@@ -14,6 +14,22 @@ UserModel = get_user_model()
 class FlwPlanModel(models.Model):
     """Represents either a Plan or OnceOff payment type"""
 
+    HOURLY = "hourly"
+    DAILY = "daily"
+    WEEKLY = "weekly"
+    MONTHLY = "monthly"
+    QUARTERLY = "quarterly"
+    BI_ANNUALLY = "bi_annually"
+    YEARLY = "yearly"
+    INTERVAL_CHOICES = (
+        (HOURLY, "Hourly"),
+        (DAILY, "Daily"),
+        (WEEKLY, "Weekly"),
+        (MONTHLY, "Monthly"),
+        (QUARTERLY, "Quarterly"),
+        (BI_ANNUALLY, "Bi Annually"),
+        (YEARLY, "Yearly"),
+    )
     name = models.CharField(max_length=50, unique=True)
     amount = models.DecimalField(decimal_places=2, max_digits=9)
     flw_plan_id = models.PositiveIntegerField(
@@ -21,6 +37,9 @@ class FlwPlanModel(models.Model):
         blank=True,
         null=True,
         help_text="Flutterwave plan id. Only required if this is a subscription plan.",
+    )
+    interval = models.CharField(
+        max_length=11, choices=INTERVAL_CHOICES, help_text="Payment frequency"
     )
     currency = models.CharField(max_length=3, default="USD")
     modal_logo_url = models.URLField(
@@ -80,7 +99,9 @@ class FlwTransactionModel(models.Model):
     narration = models.CharField(max_length=100)
     status = models.CharField(max_length=50)
     payment_type = models.CharField(max_length=50)
-    created_at = models.CharField(max_length=100)
+    created_at = models.DateTimeField(
+        help_text="Created datetime received from Flutterwave"
+    )
     account_id = models.PositiveIntegerField()
 
     class Meta:
