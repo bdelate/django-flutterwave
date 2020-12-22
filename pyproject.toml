@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "djangoflutterwave"
-version = "0.2.1"
+version = "0.2.2"
 description = "Django integration for Flutterwave payments and subscriptions"
 authors = ["Brendon Delate <brendon.delate@gmail.com>"]
 license = "MIT"
