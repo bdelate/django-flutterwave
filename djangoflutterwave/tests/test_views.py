@@ -1,7 +1,7 @@
 # stdlib imports
+from datetime import datetime
 
 # django imports
-from django.shortcuts import reverse
 from django.test import TestCase, RequestFactory
 
 # 3rd party imports
@@ -65,7 +65,7 @@ class TestTransactionCreateView(APITestCase):
             "narration": "test",
             "status": "test",
             "payment_type": "test",
-            "created_at": "test",
+            "created_at": datetime.now(),
             "account_id": 123,
         }
         request = factory.post("fake-url", data)

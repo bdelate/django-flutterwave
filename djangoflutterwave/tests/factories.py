@@ -1,10 +1,13 @@
 # stdlib imports
+from datetime import datetime
+import pytz
 
 # django imports
 from django.contrib.auth import get_user_model
 
 # 3rd party imports
-from factory import fuzzy, DjangoModelFactory
+from factory import fuzzy
+from factory.django import DjangoModelFactory
 import factory
 
 # project imports
@@ -58,7 +61,10 @@ class FlwTransactionModelFactory(DjangoModelFactory):
     narration = factory.Faker("word")
     status = fuzzy.FuzzyChoice(choices=["successful", "failed"])
     payment_type = fuzzy.FuzzyChoice(choices=["card", "ussd"])
-    created_at = factory.Faker("word")
+    created_at = fuzzy.FuzzyDateTime(
+        start_dt=datetime(2018, 8, 15, tzinfo=pytz.UTC),
+        end_dt=datetime(2020, 8, 15, tzinfo=pytz.UTC),
+    )
     account_id = fuzzy.FuzzyInteger(low=1, high=100)
 
     class Meta:
