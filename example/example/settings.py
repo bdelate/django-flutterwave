@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework.authtoken",
     # project apps
-    "paymanager",
     "djangoflutterwave",
+    "paymanager",
 ]
 
 MIDDLEWARE = [
@@ -117,7 +119,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = "static/"
 
-################ Jupyter notebook ################
+# ############### Jupyter notebook ################
 INSTALLED_APPS.append("django_extensions")
 NOTEBOOK_ARGUMENTS = [
     "--ip",
@@ -130,7 +132,14 @@ NOTEBOOK_ARGUMENTS = [
     "jupyter_notebooks",
 ]
 
-################ djangoflutterwave settings ################
+# ############### rest framework ################
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    )
+}
+
+# ############### djangoflutterwave settings ################
 FLW_PRODUCTION_PUBLIC_KEY = os.environ["FLW_PRODUCTION_PUBLIC_KEY"]
 FLW_PRODUCTION_SECRET_KEY = os.environ["FLW_PRODUCTION_SECRET_KEY"]
 FLW_SANDBOX_PUBLIC_KEY = os.environ["FLW_SANDBOX_PUBLIC_KEY"]

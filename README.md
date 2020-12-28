@@ -5,6 +5,7 @@
 This project provides Django integration for [Flutterwave](https://flutterwave.com/) payments and subscriptions.
 
 Current functionality:
+
 - Allow users to make payments (once off and subscription)
 - Create payment buttons which launch inline payment modals
 - Maintain a payment transaction history linked to users
@@ -101,7 +102,10 @@ tag as above.
 4. Add the following to your django base template (or anywhere in your template heirarchy that ensures it is loaded before your payment buttons):
 
 ```html
-<script type="text/javascript" src="https://checkout.flutterwave.com/v3.js"></script>
+<script
+  type="text/javascript"
+  src="https://checkout.flutterwave.com/v3.js"
+></script>
 <script src="{% static 'djangoflutterwave/js/payment.js' %}"></script>
 ```
 
@@ -120,6 +124,88 @@ to override it, you may do so by creating a new template in your root
 templates directory, ie: `/templates/djangoflutterwave/transaction.html`
 
 You will have access to `{{ transaction }}` within that template.
+
+# API's and single page apps
+
+As an alternative to rendering the above mentioned buttons in a django template, an API
+end point is provided for retrieving payment params which can then be used in an API based app (eg: Vue, React).
+
+End point: `djangoflutterwave/payment-params/?plan=nameofplanhere`
+
+The above end point requires an authenticated user and will return the following:
+
+```json
+{
+  "public_key": "flutterwave public key",
+  "tx_ref": "transaction ref",
+  "amount": 123.45,
+  "currency": "USD",
+  "payment_plan": 3453,
+  "customer": {
+    "email": "foo@bar.com",
+    "name": "John Smith"
+  },
+  "customizations": {
+    "title": "Pro Plan",
+    "logo": "http://example.com/image.png"
+  }
+}
+```
+
+Below is a basic example of implementing Django Flutterwave into a Vue app:
+
+```js
+<template>
+  <div>
+    <button @click="makePayment">Sign up</button>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+const token = localStorage.getItem("user-token") || "";
+axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+export default {
+  data() {
+    return {
+      params: {},
+    };
+  },
+  mounted: function() {
+    let flw = document.createElement("script");
+    flw.setAttribute("src", "https://checkout.flutterwave.com/v3.js");
+    flw.async = true;
+    document.head.appendChild(flw);
+  },
+  created() {
+    let params = axios.get("/djangoflutterwave/payment-params/?plan=proplan");
+    this.params = params;
+  },
+  methods: {
+    makePayment() {
+      FlutterwaveCheckout({
+        ...this.params,
+        callback: function(data) {
+          // This function is called after a successful payment. Add your code here.
+        },
+      });
+    },
+  },
+};
+</script>
+```
+
+The important points to note are:
+
+- All initial setup is the same as per the above documentation.
+- To call the end point, the user must be authenticated (ie: add their token).
+- `https://checkout.flutterwave.com/v3.js` must be loaded as a script.
+- A plan name is used to call the API end point which returns the payment params. Those payment params are then used in the `makePayment` method.
+- There is a call back function which should be used to specify what to do after a
+  payment has been completed.
 
 # Development and contribution
 

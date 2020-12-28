@@ -3,14 +3,13 @@ import json
 
 # django imports
 from django.shortcuts import reverse
-from django.utils import timezone
 from django import template
 
 # 3rd party imports
 
 # project imports
 from djangoflutterwave import settings
-
+from djangoflutterwave.utils import create_transaction_ref
 
 register = template.Library()
 
@@ -24,8 +23,7 @@ def pay_button_params(user_pk: str, plan_pk: str) -> str:
         redirect_url: transaction detail page to redirect to
         public_key: public key from settings
     """
-    now = timezone.now().timestamp()
-    tx_ref = f"{plan_pk}__{now}__{user_pk}"
+    tx_ref = create_transaction_ref(plan_pk=plan_pk, user_pk=user_pk)
     redirect_url = reverse(
         "djangoflutterwave:transaction_detail", kwargs={"tx_ref": tx_ref}
     )

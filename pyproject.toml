@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "djangoflutterwave"
-version = "0.2.3"
+version = "0.3.0"
 description = "Django integration for Flutterwave payments and subscriptions"
 authors = ["Brendon Delate <brendon.delate@gmail.com>"]
 license = "MIT"
@@ -35,7 +35,6 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.6 <4"
 django = ">=2.2 <4"
-requests = "^2.22"
 djangorestframework = "^3.10"
 
 [tool.poetry.dev-dependencies]

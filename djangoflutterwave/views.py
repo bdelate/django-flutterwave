@@ -6,13 +6,17 @@ from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 
 # 3rd party imports
-from rest_framework.generics import CreateAPIView
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 # project imports
+from djangoflutterwave import settings
 from djangoflutterwave.models import FlwTransactionModel, FlwPlanModel
 from djangoflutterwave.serializers import DRTransactionSerializer
+from djangoflutterwave.utils import create_transaction_ref
 
 
 UserModel = get_user_model()
@@ -36,7 +40,8 @@ class TransactionDetailView(LoginRequiredMixin, TemplateView):
 
 
 class TransactionCreateView(CreateAPIView):
-    """Provides an api end point to create transactions"""
+    """Api end point to create transactions. This is used as a webhook called by
+    Flutterwave."""
 
     queryset = FlwTransactionModel.objects.all()
     serializer_class = DRTransactionSerializer
@@ -62,3 +67,32 @@ class TransactionCreateView(CreateAPIView):
             user=UserModel.objects.get(id=user_id),
             plan=FlwPlanModel.objects.get(id=plan_id),
         )
+
+
+class PaymentParamsView(APIView):
+    """Api view for retrieving params required when submiting a payment request to
+    Flutterwave. End point can be used by SPA's instead of using template payment
+    button."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        """Return params based on provided plan name"""
+        try:
+            plan = FlwPlanModel.objects.get(name=request.GET.get("plan", None))
+        except FlwPlanModel.DoesNotExist:
+            return Response("Plan does not exist", status=status.HTTP_404_NOT_FOUND)
+
+        data = {
+            "public_key": settings.FLW_PUBLIC_KEY,
+            "tx_ref": create_transaction_ref(plan_pk=plan.pk, user_pk=request.user.pk),
+            "amount": plan.amount,
+            "currency": plan.currency,
+            "payment_plan": plan.flw_plan_id,
+            "customer": {
+                "email": request.user.email,
+                "name": f"{request.user.first_name} {request.user.last_name}",
+            },
+            "customizations": {"title": plan.modal_title, "logo": plan.modal_logo_url},
+        }
+        return Response(data)
