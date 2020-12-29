@@ -8,6 +8,7 @@ authors = ["bdelate <brendon.delate@gmail.com>"]
 python = ">=3.6 <4"
 Django = "^3.1.4"
 djangoflutterwave = { path="../", develop = true }
+djangorestframework = "^3.12.2"
 
 [tool.poetry.dev-dependencies]
 black = {version = "=19.3b0",allow-prereleases = true}
